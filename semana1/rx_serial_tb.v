@@ -66,7 +66,7 @@ module rx_serial_tb;
         #(CLK_P_BIT * CLOCK_PERIOD);
     
 
-        for (; i < 8; i = i + 1) begin
+        for (i = 0; i < 8; i = i + 1) begin
             @(negedge clk_in);
             // envia bit
             rxd_in = msg[i];

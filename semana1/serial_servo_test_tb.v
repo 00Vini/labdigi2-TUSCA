@@ -78,7 +78,7 @@ wire [6:0] db_estado;
         // espera uart receber start bit
         #(CLK_P_BIT * CLOCK_PERIOD);
 
-        for (; i < N_BITS; i = i + 1) begin
+        for (i = 0; i < N_BITS; i = i + 1) begin
             @(negedge clock);
             // envia bit
             rxd = msg[i];
