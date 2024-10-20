@@ -17,7 +17,7 @@ wire saida_serial;
 wire parity_check;
 wire pwm;
 wire fim_transmissao;
-wire [6:0] db_estado;
+wire [6:0] db_estado, data_out;
 
     serial_servo_test #(
         .PERIODO_CONTA( PERIODO_CONTA ),
@@ -35,6 +35,7 @@ wire [6:0] db_estado;
         .parity_check(parity_check),
         .pwm(pwm),
         .fim_transmissao(fim_transmissao),
+        .data_out(data_out),
         .db_estado(db_estado)
     );
 

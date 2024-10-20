@@ -7,7 +7,7 @@ module controle_servo_tb ();
     wire pwm;
 
     controle_servo #(
-        .config_periodo(2000)
+        .PERIODO_CONTA(2000)
     ) dut (
         .clock(clock),
         .reset(reset),
@@ -41,10 +41,10 @@ module controle_servo_tb ();
 
         $display("Giro = 0");
         gira = 1'b0;
-        #(20_000_000);
+        #(3 * 20_000_000);
 
         $display("Fim da simulacao");
-
+        $stop;
     end
 
 endmodule
