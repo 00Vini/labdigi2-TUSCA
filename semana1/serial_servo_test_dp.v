@@ -21,7 +21,8 @@ module serial_servo_test_dp #(
     output parity_check,
     output pronto_tx,
     output pwm,
-    output [6:0] data_out
+    output [6:0] data_out,
+    output [2:0] db_estado_rx
 );
 
     wire [6:0] data;
@@ -39,7 +40,8 @@ module serial_servo_test_dp #(
         .rxd         ( rxd          ),
         .parity_check( parity_check ),
         .fim         ( fim_rx       ),
-        .data        ( data     )
+        .data        ( data     ),
+        .db_estado   (db_estado_rx)
     );
 
     tx_serial_7O1 #(

@@ -30,11 +30,11 @@ module serial_servo_test_uc (
     // Logica de proximo estado
     always @* begin
         case (Eatual)
-            inicial     : Eprox = transmite ? espera : inicial;
+            inicial     : Eprox = transmite ? preparacao : inicial;
             espera      : Eprox = fim_rx ? preparacao : espera;
             preparacao  : Eprox = transmissao;
             transmissao : Eprox = pronto_tx ? final_tx : transmissao;
-            final_tx    : Eprox = inicial;
+            final_tx    : Eprox = espera;
             default     : Eprox = inicial;
         endcase
     end
