@@ -20,7 +20,7 @@ module rx_serial_dp #(
     output counter_half,
     output counter_finished,
     output receive_finished,
-    output s_parity_check,
+    output parity_check,
     output [N_BITS - 1: 0] data
 );
 
@@ -37,10 +37,10 @@ module rx_serial_dp #(
 
     wire [N_BITS - 1: 0] current_data; // dados recebidos
     wire sample;
-    wire parity, parity_check;
+    wire parity, s_parity_check;
     wire [$clog2(CLK_P_BIT) - 1:0] q; 
     assign parity = PARITY ? ~^current_data : ^current_data;
-    assign parity_check = parity ~^ sample; // parity_check = 0 -> falha
+    assign s_parity_check = parity ~^ sample; // parity_check = 0 -> falha
 
     contador_m #( 
         .M(CLK_P_BIT), 
@@ -97,8 +97,8 @@ module rx_serial_dp #(
         .clock ( clock           ),
         .clear ( zera            ),
         .enable( registra_parity ),
-        .D     ( parity_check    ),
-        .Q     ( s_parity_check  )
+        .D     ( s_parity_check  ),
+        .Q     ( parity_check    )
     );
 
     registrador_n #(

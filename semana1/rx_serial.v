@@ -14,7 +14,8 @@ module rx_serial #(
     input rxd,
     output parity_check,
     output fim,
-    output [N_BITS - 1: 0] data
+    output [N_BITS - 1: 0] data,
+    output [2:0] db_estado
 );
 
     wire zera;
@@ -57,7 +58,8 @@ module rx_serial #(
         .registra_parity(registra_parity),
         .desloca(desloca),
         .zera(zera),
-        .finished(fim)
+        .finished(fim),
+        .db_estado(db_estado)
     );
 
 

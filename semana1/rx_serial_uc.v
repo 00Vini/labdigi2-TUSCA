@@ -10,7 +10,8 @@ module rx_serial_uc (
     output reg registra_parity,
     output reg desloca,
     output reg zera,
-    output reg finished
+    output reg finished,
+    output [2:0] db_estado
 );
 
     localparam IDLE = 3'b000;
@@ -23,6 +24,8 @@ module rx_serial_uc (
 
     reg[2:0] current_state;
     reg[2:0] next_state;
+
+    assign db_estado = current_state;
 
     // Memoria de estado
     always @(posedge clock or posedge reset) begin
