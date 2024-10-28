@@ -13,8 +13,6 @@ wire [$clog2(50000) - 1:0] largura_real;
 reg [31:0] contagem; // Contador interno (32 bits) para acomodar conf_periodo
 reg [$clog2(50000) - 1:0] largura_pwm;
 
-assign largura_real = largura + defasagem;
-
 always @(posedge clock or posedge reset) begin
     if (reset) begin
         contagem <= 0;
@@ -22,12 +20,12 @@ always @(posedge clock or posedge reset) begin
         largura_pwm <= defasagem; // Valor inicial da largura do pulso
     end else begin
         // Saída PWM
-        pwm <= (contagem < largura_pwm);
+        pwm <= (contagem < largura_pwm + defasagem);
 
         // Atualização do contador e da largura do pulso
         if (contagem == conf_periodo - 1) begin
             contagem <= 0;
-            largura_pwm <= largura_real;
+            largura_pwm <= largura;
             
         end else begin
             contagem <= contagem + 1;
