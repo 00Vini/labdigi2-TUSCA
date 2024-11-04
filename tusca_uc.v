@@ -1,6 +1,7 @@
 module tusca_uc (
   input clock,
   input reset,
+  input start,
 
   output medir_dht11,
   output conta_delay,
@@ -36,7 +37,7 @@ module tusca_uc (
 
   always @* begin
     case (Eatual)
-      INICIAL: Eprox = MEDE;
+      INICIAL: Eprox = start ? MEDE : INICIAL;
       MEDE: Eprox = ESPERA_MEDIDA;
       ESPERA_MEDIDA: Eprox = pronto_medida ? RESETA_DELAY : ESPERA_MEDIDA;
       RESETA_DELAY: Eprox = ESPERA_DELAY;
