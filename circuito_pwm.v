@@ -1,17 +1,17 @@
 module circuito_pwm #(    // valores default
-    parameter conf_periodo = 1000000 // Período do sinal PWM [1250 => f=4KHz (25us)]
+    parameter conf_periodo = 1000000, // Período do sinal PWM [1250 => f=4KHz (25us)]
+    parameter defasagem = conf_periodo/20, // Defasagem do sinal PWM
+    parameter N = 50000
 ) (
     input        clock,
     input        reset,
-    input [$clog2(50000) - 1:0] largura,
+    input [$clog2(N) - 1:0] largura,
     output reg   pwm
 );
-localparam defasagem = conf_periodo/20;
 
-
-wire [$clog2(50000) - 1:0] largura_real;
+wire [$clog2(N) - 1:0] largura_real;
 reg [31:0] contagem; // Contador interno (32 bits) para acomodar conf_periodo
-reg [$clog2(50000) - 1:0] largura_pwm;
+reg [$clog2(N) - 1:0] largura_pwm;
 
 always @(posedge clock or posedge reset) begin
     if (reset) begin
