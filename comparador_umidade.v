@@ -9,9 +9,9 @@ module comparador_umidade (
 
   assign rele = (eq | lt);
 
-  comparador_float_sensor com_float_umidade (
-    .valor_a(umidade),
-    .valor_b(lim_umidade),
+  comparador_n #(.N(16)) com_float_umidade (
+    .A(umidade),
+    .B(lim_umidade),
     .eq(eq),
     .gt(),
     .lt(lt)

@@ -15,33 +15,33 @@ module comparador_temperaturas (
   wire gt1, gt2, gt3, gt4;
   wire lt1, lt2, lt3, lt4;
 
-  comparador_float_sensor comparador_float_sensor1 (
-    .valor_a(temp),
-    .valor_b(lim_temp1),
+  comparador_n #(.N(16)) comparador_float_sensor1 (
+    .A(temp),
+    .B(lim_temp1),
     .eq(eq1),
     .gt(gt1),
     .lt(lt1)
   );
 
-  comparador_float_sensor comparador_float_sensor2 (
-    .valor_a(temp),
-    .valor_b(lim_temp2),
+  comparador_n #(.N(16)) comparador_float_sensor2 (
+    .A(temp),
+    .B(lim_temp2),
     .eq(eq2),
     .gt(gt2),
     .lt(lt2)
   );
 
-  comparador_float_sensor comparador_float_sensor3 (
-    .valor_a(temp),
-    .valor_b(lim_temp3),
+  comparador_n #(.N(16)) comparador_float_sensor3 (
+    .A(temp),
+    .B(lim_temp3),
     .eq(eq3),
     .gt(gt3),
     .lt(lt3)
   );
 
-  comparador_float_sensor comparador_float_sensor4 (
-    .valor_a(temp),
-    .valor_b(lim_temp4),
+  comparador_n #(.N(16)) comparador_float_sensor4 (
+    .A(temp),
+    .B(lim_temp4),
     .eq(eq4),
     .gt(gt4),
     .lt(lt4)

@@ -8,7 +8,7 @@ module controle_servo #(
 );
 
 
-wire [31:0] largura;
+wire [15:0] largura;
 wire clock_reduzido;
 
     circuito_pwm #(

@@ -42,7 +42,7 @@ module rx_serial #(
         .counter_half(counter_half),
         .counter_finished(counter_finished),
         .receive_finished(receive_finished),
-        .s_parity_check(parity_check),
+        .parity_check(parity_check),
         .data(data)
     );
 

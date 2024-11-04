@@ -13,6 +13,7 @@ module rx_serial_tb;
     reg [N_BITS - 1:0] msg = "V";
     wire [N_BITS - 1:0] data_out;
     wire finished_out;
+    wire parity_check;
 
 
     // unidade em teste
