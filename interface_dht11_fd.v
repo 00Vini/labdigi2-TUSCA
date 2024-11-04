@@ -29,8 +29,8 @@ module interface_dht11_fd (
   );
 
   contador_m #(
-    .M(5),
-    .N($clog2(5))
+    .M(1250),
+    .N($clog2(1250))
   ) contador_delay_sinal (
     .clock(clock),
     .zera_as(reset),

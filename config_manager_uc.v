@@ -42,7 +42,7 @@ module config_manager_uc (
       RECEBE_TEMP4: Eprox = fim_recepcao_config ? (parity_config_ok ? RECEBE_UMIDADE : ERRO) : RECEBE_TEMP4;
       RECEBE_UMIDADE: Eprox = fim_recepcao_config ? (parity_config_ok ? FIM_CONFIG : ERRO) : RECEBE_UMIDADE;
       FIM_CONFIG: Eprox = INICIAL;
-      ERRO: Eprox = INICIAL;
+      ERRO: Eprox = receber_config ? RECEBE_TEMP1 : ERRO;
       default: Eprox = INICIAL;
     endcase
   end

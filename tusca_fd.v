@@ -11,7 +11,8 @@ module tusca_fd #(
   input medir_dht11,
   input receber_config,
 
-  input rx_serial,
+  input rx_serial_medida,
+  input rx_serial_config,
 
   output medir_dht11_out,
   output fim_delay,
@@ -33,7 +34,7 @@ module tusca_fd #(
     .clock(clock),
     .reset(reset),
     .medir_dht11(medir_dht11),
-    .rx_serial(rx_serial),
+    .rx_serial(rx_serial_medida),
     .pronto_medida(pronto_medida),
     .temeperatura_out(s_temp),
     .umidade_out(s_umidade),
@@ -44,7 +45,7 @@ module tusca_fd #(
     .clock(clock),
     .reset(reset),
     .receber_config(receber_config),
-    .rx_serial(rx_serial),
+    .rx_serial(rx_serial_config),
     .temp_lim1_out(s_lim_temp1),
     .temp_lim2_out(s_lim_temp2),
     .temp_lim3_out(s_lim_temp3),

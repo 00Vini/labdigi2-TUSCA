@@ -18,7 +18,8 @@ module tusca_uc (
              ESPERA_MEDIDA = 3'd2,
              RESETA_DELAY = 3'd3,
              ESPERA_DELAY = 3'd4,
-             ESPERA_CONFIG = 3'd5;
+             PEDIR_CONFIG = 3'd5,
+             ESPERA_CONFIG = 3'd6;
 
   reg [3:0] Eatual, Eprox;
 
@@ -35,13 +36,14 @@ module tusca_uc (
       MEDE: Eprox = ESPERA_MEDIDA;
       ESPERA_MEDIDA: Eprox = pronto_medida ? RESETA_DELAY : ESPERA_MEDIDA;
       RESETA_DELAY: Eprox = ESPERA_DELAY;
-      ESPERA_DELAY: Eprox = fim_delay ? MEDE : (definir_config ? ESPERA_CONFIG : ESPERA_DELAY);
+      ESPERA_DELAY: Eprox = fim_delay ? MEDE : (definir_config ? PEDIR_CONFIG : ESPERA_DELAY);
+      PEDIR_CONFIG: Eprox = ESPERA_CONFIG;
       ESPERA_CONFIG: Eprox = pronto_config ? RESETA_DELAY : ESPERA_CONFIG;
       default: Eprox = INICIAL;
     endcase
   end
 
-  assign receber_config = (Eatual == ESPERA_CONFIG);
+  assign receber_config = (Eatual == PEDIR_CONFIG);
 
   assign conta_delay = (Eatual == ESPERA_DELAY);
   assign zera_delay = (Eatual == RESETA_DELAY);
