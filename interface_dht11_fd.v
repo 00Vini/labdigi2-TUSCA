@@ -5,11 +5,11 @@ module interface_dht11_fd (
   input conta_delay_sinal,
   input load_medida,
   output fim_delay_sinal,
-  output temperatura_out,
+  output [15:0] temperatura_out,
   output [15:0] umidade_out,
-  output [15:0] medida_ok,
+  output medida_ok,
   output fim_recepcao_medida,
-  output db_estado_recepcao_medida
+  output [2:0] db_estado_recepcao_medida
 );
 
   wire [31:0] medida;

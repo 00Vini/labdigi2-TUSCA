@@ -21,6 +21,7 @@ module rx_serial_uc (
     localparam SHIFT_DATA = 3'b100;
     localparam PARITY = 3'b101;
     localparam FINISH = 3'b110;
+    localparam END_RECEIVE = 3'b111;
 
     reg[2:0] current_state;
     reg[2:0] next_state;
@@ -44,7 +45,8 @@ module rx_serial_uc (
             RECEIVE: next_state = counter_finished ? SHIFT_DATA : RECEIVE;
             SHIFT_DATA: next_state =  receive_finished? PARITY : RECEIVE;
             PARITY: next_state = counter_finished ? FINISH : PARITY;
-            FINISH: next_state = counter_half ? IDLE : FINISH;
+            FINISH: next_state = counter_half ? END_RECEIVE : FINISH;
+            END_RECEIVE: next_state = IDLE;
             default: next_state = IDLE;
         endcase
     end
@@ -55,7 +57,7 @@ module rx_serial_uc (
         zera = (current_state == ARRANGE);
         registra_dados = (current_state == FINISH);
         registra_parity = (current_state == FINISH);
-        finished = (current_state == FINISH);
+        finished = (current_state == END_RECEIVE);
         desloca = (current_state == SHIFT_DATA);
     end
 

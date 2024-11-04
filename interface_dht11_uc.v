@@ -47,6 +47,6 @@ module interface_dht11_uc (
   assign load_medida = (Eatual == ARMAZENA_MEDIDA);
   assign conta_delay_sinal = (Eatual == ESPERA_DELAY_SINAL);
   assign pronto_medida = (Eatual == FIM_MEDIDA);
-  assign medir_out = (Eatual == MEDE);
+  assign medir_out = (Eatual == ESPERA_DELAY_SINAL);
 
 endmodule
