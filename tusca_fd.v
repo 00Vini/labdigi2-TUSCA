@@ -21,7 +21,19 @@ module tusca_fd #(
   output erro_config,
   output rele,
   output pwm_ventoinha,
-  output pwm_servo
+  output pwm_servo,
+  output[2:0] db_estado_interface_dht11,
+  output[2:0] db_estado_config_manager,
+  output[2:0] db_estado_recepcao_config,
+  output[2:0] db_estado_recepcao_medida,
+  output[1:0] db_nivel_temperatura,
+  output[15:0] db_temperatura,
+  output[15:0] db_umidade,
+  output[15:0] db_lim_temp1,
+  output[15:0] db_lim_temp2,
+  output[15:0] db_lim_temp3,
+  output[15:0] db_lim_temp4,
+  output[15:0] db_lim_umidade
 );
 
   wire [15:0] s_temp, s_umidade;
@@ -29,6 +41,15 @@ module tusca_fd #(
   wire [15:0] s_data_config;
   wire [15:0] s_lim_umidade, s_lim_temp1, s_lim_temp2, s_lim_temp3, s_lim_temp4;
   wire [1:0] s_nivel_temperatura;
+
+  assign db_nivel_temperatura = s_nivel_temperatura;
+  assign db_temperatura = s_temp;
+  assign db_umidade = s_umidade;
+  assign db_lim_temp1 = s_lim_temp1;
+  assign db_lim_temp2 = s_lim_temp2;
+  assign db_lim_temp3 = s_lim_temp3;
+  assign db_lim_temp4 = s_lim_temp4;
+  assign db_lim_umidade = s_lim_umidade;
 
   interface_dht11 interface_dht11 (
     .clock(clock),
@@ -38,7 +59,9 @@ module tusca_fd #(
     .pronto_medida(pronto_medida),
     .temeperatura_out(s_temp),
     .umidade_out(s_umidade),
-    .medir_out(medir_dht11_out)
+    .medir_out(medir_dht11_out),
+    .db_estado(db_estado_interface_dht11),
+    .db_estado_recepcao_medida(db_estado_recepcao_medida)
   );
 
   config_manager cnf (
@@ -52,7 +75,9 @@ module tusca_fd #(
     .temp_lim4_out(s_lim_temp4),
     .umidade_lim_out(s_lim_umidade),
     .erro_config(erro_config),
-    .pronto_config(pronto_config)
+    .pronto_config(pronto_config),
+    .db_estado(db_estado_config_manager),
+    .db_estado_recepcao_config(db_estado_recepcao_config)
   );
   
   comparador_temperaturas comp_temps (

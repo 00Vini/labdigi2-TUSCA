@@ -10,7 +10,8 @@ module interface_dht11_uc (
   output conta_delay_sinal,
   output pronto_medida,
   output medir_out,
-  output load_medida
+  output load_medida,
+  output [2:0] db_estado
 );
 
   localparam INICIAL = 3'd0,
@@ -21,6 +22,8 @@ module interface_dht11_uc (
              ARMAZENA_MEDIDA = 3'd5;
 
   reg [2:0] Eatual, Eprox;
+
+  assign db_estado = Eatual;
 
   always @(posedge clock or posedge reset) begin
     if (reset)

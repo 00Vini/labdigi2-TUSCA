@@ -16,7 +16,8 @@ module config_manager_fd(
   output [15:0] umidade_lim_out,
 
   output fim_recepcao_config,
-  output parity_config_ok
+  output parity_config_ok,
+  output [2:0] db_estado_recepcao_config
 );
 
   wire [15:0] s_data_config;
@@ -33,7 +34,7 @@ module config_manager_fd(
       .parity_check(parity_config_ok),
       .fim(fim_recepcao_config),
       .data(s_data_config),
-      .db_estado()
+      .db_estado(db_estado_recepcao_config)
   );
 
   registrador_n #(.N(16)) reg_lim_umidade (

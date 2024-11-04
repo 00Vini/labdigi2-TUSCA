@@ -6,7 +6,9 @@ module interface_dht11(
   output pronto_medida,
   output [15:0] temeperatura_out,
   output [15:0] umidade_out,
-  output medir_out
+  output medir_out,
+  output[2:0] db_estado,
+  output[2:0] db_estado_recepcao_medida
 );
 
   wire s_conta_delay_sinal, s_fim_delay_sinal, s_medida_ok, s_fim_recepcao_medida, s_load_medida;
@@ -21,7 +23,8 @@ module interface_dht11(
     .fim_recepcao_medida(s_fim_recepcao_medida),
     .load_medida(s_load_medida),
     .temperatura_out(temeperatura_out),
-    .umidade_out(umidade_out)
+    .umidade_out(umidade_out),
+    .db_estado_recepcao_medida(db_estado_recepcao_medida)
   );
 
   interface_dht11_uc interface_dht11_uc(
@@ -34,7 +37,8 @@ module interface_dht11(
     .medida_ok(s_medida_ok),
     .fim_recepcao_medida(s_fim_recepcao_medida),
     .medir_out(medir_out),
-    .load_medida(s_load_medida)
+    .load_medida(s_load_medida),
+    .db_estado(db_estado)
   );
 
 

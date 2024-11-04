@@ -10,7 +10,9 @@ module tusca_uc (
   input definir_config,
   input fim_delay,
   input pronto_medida,
-  input pronto_config
+  input pronto_config,
+  
+  output [2:0] db_estado
 );
 
   localparam INICIAL = 3'd0,
@@ -21,7 +23,9 @@ module tusca_uc (
              PEDIR_CONFIG = 3'd5,
              ESPERA_CONFIG = 3'd6;
 
-  reg [3:0] Eatual, Eprox;
+  reg [2:0] Eatual, Eprox;
+  
+  assign db_estado = Eatual;
 
   always @(posedge clock or posedge reset) begin
     if (reset)

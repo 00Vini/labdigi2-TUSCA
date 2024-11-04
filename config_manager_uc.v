@@ -12,7 +12,8 @@ module config_manager_uc (
   output erro_config,
 
   input fim_recepcao_config,
-  input parity_config_ok
+  input parity_config_ok,
+  output[2:0] db_estado
 );
 
   localparam INICIAL = 3'd0,
@@ -25,6 +26,8 @@ module config_manager_uc (
              FIM_CONFIG     = 3'd7;
 
   reg [2:0] Eatual, Eprox;
+
+  assign db_estado = Eatual;
 
   always @(posedge clock or posedge reset) begin
     if (reset)

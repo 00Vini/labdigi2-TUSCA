@@ -8,7 +8,8 @@ module interface_dht11_fd (
   output temperatura_out,
   output [15:0] umidade_out,
   output [15:0] medida_ok,
-  output fim_recepcao_medida
+  output fim_recepcao_medida,
+  output db_estado_recepcao_medida
 );
 
   wire [31:0] medida;
@@ -25,7 +26,7 @@ module interface_dht11_fd (
       .parity_check(medida_ok),
       .fim(fim_recepcao_medida),
       .data(medida),
-      .db_estado()
+      .db_estado(db_estado_recepcao_medida)
   );
 
   contador_m #(
