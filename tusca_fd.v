@@ -1,4 +1,6 @@
-module tusca_fd (
+module tusca_fd #(
+  parameter PERIODO_CONTA = 2000
+) (
   input [15:0] temp,
   input [15:0] umidade,
   input clock,
@@ -6,7 +8,8 @@ module tusca_fd (
   input gira,
 
   output rele,
-  output pwm_ventoinha
+  output pwm_ventoinha,
+  output pwm_servo
 );
 
   wire [15:0] s_temp, s_umidade;
@@ -33,6 +36,15 @@ module tusca_fd (
     .reset(reset),
     .s_nivel(s_nivel_temperatura),
     .pwm_ventoinha(pwm_ventoinha)
+  );
+
+  controle_servo #( 
+    .PERIODO_CONTA(PERIODO_CONTA)
+  ) servo (
+      .clock ( clock ),
+      .reset ( reset ),
+      .gira  ( gira  ),
+      .pwm   ( pwm_servo   )
   );
 
   registrador_n #(.N(16)) reg_temp (
