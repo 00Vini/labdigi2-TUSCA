@@ -1,5 +1,6 @@
 module tusca_fd (
   input [15:0] temp,
+  input [15:0] umidade,
   input clock,
   input reset,
   input gira,
@@ -46,7 +47,7 @@ module tusca_fd (
     .clock(clock),
     .clear(reset),
     .enable(1'b1),
-    .D({8'd48, 8'd2}), // 48.2
+    .D(umidade),
     .Q(s_umidade)
   );
 
@@ -54,7 +55,7 @@ module tusca_fd (
     .clock(clock),
     .clear(reset),
     .enable(1'b1),
-    .D({8'd48, 8'd2}), // 45.0
+    .D({8'd48, 8'd2}), // 48.2
     .Q(s_lim_umidade)
   );
 

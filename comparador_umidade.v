@@ -13,8 +13,8 @@ module comparador_umidade (
     .valor_a(umidade),
     .valor_b(lim_umidade),
     .eq(eq),
-    .gt(lt),
-    .lt()
+    .gt(),
+    .lt(lt)
   );
 
 endmodule

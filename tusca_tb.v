@@ -2,11 +2,13 @@
 module tusca_tb;
 
   reg clk, reset;
-  reg[15:0] tmp;
+  reg[15:0] tmp, umidade;
   wire rele, pwm_ventoinha;
 
   initial begin
     clk = 1'b0;
+    tmp = 0;
+    umidade = 0;
     
     reset = 1'b1;
     #40
@@ -22,6 +24,9 @@ module tusca_tb;
     #150000
     tmp = {8'd32, 8'd5};
     #150000
+
+    umidade = {8'd54, 8'd2};
+    #150000
     $stop;
   end
 
@@ -31,6 +36,7 @@ module tusca_tb;
 
   tusca_fd tusca_fd1 (
     .temp(tmp),
+    .umidade(umidade),
     .clock(clk),
     .reset(reset),
     .gira(1'b0),
