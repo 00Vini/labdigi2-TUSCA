@@ -8,11 +8,12 @@ module controle_servo #(
 );
 
 
-wire [31:0] largura;
+wire [15:0] largura;
 wire clock_reduzido;
 
     circuito_pwm #(
-        .conf_periodo(1000000) // f=50Hz;T=20ms
+        .conf_periodo(1000000), // f=50Hz;T=20ms,
+        .N(50000)
     ) gerador_pwm (
         .clock(clock),
         .reset(reset),
