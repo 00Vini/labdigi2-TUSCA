@@ -21,9 +21,9 @@ void loop() {
   if (digitalRead(ENABLE_PIN) == HIGH) {
     unsigned long startTime = micros();
 
-    // Wait for at least 25 microseconds while pin is still HIGH
+    // Wait for at least 20 microseconds while pin is still HIGH
     while (digitalRead(ENABLE_PIN) == HIGH) {
-      if (micros() - startTime >= 25) {
+      if (micros() - startTime >= 10) {
         // Enough time has passed, proceed to send data
         float humidity = dht.readHumidity();
         float temperature = dht.readTemperature();
@@ -60,5 +60,4 @@ void loop() {
     }
   }
 
-  delay(10);  // Add a small delay to debounce or avoid multiple triggers
 }
