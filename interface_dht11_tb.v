@@ -8,20 +8,21 @@ module interface_dht11_tb;
   wire [15:0] temeperatura_out, umidade_out;
 
   task envia_serial;
-    input[31:0] msg;
+    input[7:0] msg;
     input wrong_parity;
     localparam CLK_P_BIT = (1_000_000_000 * 1/9600) / (1_000_000_000 * 1/50_000_000);
     integer i;
     begin: envia_serial
-      reg [34:0] msg_final;
+      reg [10:0] msg_final;
       msg_final = {1'b1, wrong_parity ? ^msg : ~(^msg), msg, 1'b0};
-      for (i = 0; i < 35; i = i + 1) begin
+      for (i = 0; i < 10; i = i + 1) begin
         @(negedge clock);
         // envia bit
         rx_serial = msg_final[i];
         // espera uart receber 
         #(CLK_P_BIT * CLOCK_PERIOD);
       end
+      rx_serial = 1'b1;
       #(3 * CLK_P_BIT * CLOCK_PERIOD);
     end
   endtask
@@ -54,8 +55,10 @@ module interface_dht11_tb;
     medir_dht11 = 1'b0;
     #30000;
     wait (medir_out == 0);
-    envia_serial(32'haaaabbbb, 0);
-    rx_serial = 1'b1;
+    envia_serial(8'hba, 0);
+    envia_serial(8'hde, 0);
+    envia_serial(8'h12, 0);
+    envia_serial(8'h34, 0);
     #100000;
     $stop;
   end

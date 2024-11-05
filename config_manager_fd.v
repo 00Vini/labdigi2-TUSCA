@@ -21,20 +21,17 @@ module config_manager_fd(
 );
 
   wire [15:0] s_data_config;
+  wire s_parity_error;
 
-  rx_serial #(
-    .BAUD_RATE(115200),
-    .CLOCK_HZ(50_000_000),
-    .N_BITS(16),
-    .PARITY(1)
-  ) recep_serial (
-      .clock(clock),
-      .reset(reset),
-      .rxd(rx_serial),
-      .parity_check(parity_config_ok),
-      .fim(fim_recepcao_config),
-      .data(s_data_config),
-      .db_estado(db_estado_recepcao_config)
+  assign parity_config_ok = ~s_parity_error;
+
+  receptor_16 receptor_config (
+    .clock(clock),
+    .reset(reset),
+    .rx_serial(rx_serial),
+    .data_out(s_data_config),
+    .erro(s_parity_error),
+    .pronto(fim_recepcao_config)
   );
 
   registrador_n #(.N(16)) reg_lim_umidade (

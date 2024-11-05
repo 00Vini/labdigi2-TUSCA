@@ -6,11 +6,11 @@ module controle_ventoinha(
 );
 
   circuito_pwm_discreto #(
-    .conf_periodo(5000), // 20kHz
-    .largura_00(2500),
-    .largura_01(3333),
-    .largura_10(4166),
-    .largura_11(5000)
+    .conf_periodo(2500), // 20kHz
+    .largura_00(1250), // 50%
+    .largura_01(1666),
+    .largura_10(2082),
+    .largura_11(2500)
   ) pwm (
     .clock(clock),
     .reset(reset),
