@@ -9,11 +9,12 @@ module tusca_tb;
     input[7:0] msg;
     input wrong_parity;
     input canal; // 0 = config, 1 = medida
-    localparam CLK_P_BIT_0 = (1_000_000_000 * 1/115200) / (1_000_000_000 * 1/50_000_000);
-    localparam CLK_P_BIT_1 = (1_000_000_000 * 1/9600) / (1_000_000_000 * 1/50_000_000);
+    input[31:0] baud;
     integer i;
+    reg[31:0] CLK_P_BIT;
     begin: envia_serial
       reg [10:0] msg_final;
+      CLK_P_BIT = (1_000_000_000 * 1/baud) / (1_000_000_000 * 1/50_000_000);
       msg_final = {1'b1, wrong_parity ? ^msg : ~(^msg), msg, 1'b0};
       for (i = 0; i < 10; i = i + 1) begin
         @(negedge clock);
@@ -25,21 +26,11 @@ module tusca_tb;
           rx_serial_config = msg_final[i];
         end
         // espera uart receber
-        if (canal == 1) begin
-          #(CLK_P_BIT_1 * CLOCK_PERIOD);
-        end
-        else begin
-          #(CLK_P_BIT_0 * CLOCK_PERIOD);
-        end
+        #(CLK_P_BIT * CLOCK_PERIOD);
       end
       rx_serial_medida = 1'b1;
       rx_serial_config = 1'b1;
-      if (canal == 1) begin
-          #(1*CLK_P_BIT_1 * CLOCK_PERIOD);
-        end
-        else begin
-          #(1*CLK_P_BIT_0 * CLOCK_PERIOD);
-        end
+      #(1*CLK_P_BIT * CLOCK_PERIOD);
     end
   endtask
 
@@ -47,8 +38,8 @@ module tusca_tb;
   input [15:0] msg;
   input canal;
   begin
-    envia_serial(msg[7:0], 0, canal);
-    envia_serial(msg[15:8], 0, canal);
+    envia_serial(msg[7:0], 0, canal, canal ? 9600 : 115200);
+    envia_serial(msg[15:8], 0, canal, canal ? 9600 : 115200);
   end
   endtask
 

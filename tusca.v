@@ -1,6 +1,7 @@
 // TODO
 // - [ ] Adicionar timeout na medida do arduino
 // - [ ] Adicionar mais níveis de temperatura
+// - [ ] Adicionar lógica para apenas carregar as configurações no fim do recebimento.
 
 module tusca #(
   parameter PERIODO_CONTA = 2000,
