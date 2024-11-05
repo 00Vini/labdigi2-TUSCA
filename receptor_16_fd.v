@@ -14,7 +14,6 @@ module receptor_16_fd #(
   output parity_ok
 );
 
-  wire[15:0] s_data_in;
   wire[7:0] s_data;
   wire [1:0] etapa;
 
@@ -42,7 +41,7 @@ module receptor_16_fd #(
       .load_low(load_data_low),
       .load(1'b0),
       .D_half(s_data),
-      .D(s_data_in),
+      .D(),
       .Q(data_out)
   );
   

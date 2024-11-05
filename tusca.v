@@ -1,3 +1,7 @@
+// TODO
+// - [ ] Adicionar timeout na medida do arduino
+// - [ ] Adicionar mais níveis de temperatura
+
 module tusca #(
   parameter PERIODO_CONTA = 2000,
   parameter PERIODO_DELAY = 100_000_000 // 2s

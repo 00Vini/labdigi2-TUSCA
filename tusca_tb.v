@@ -108,7 +108,7 @@ module tusca_tb;
     envia_16b(16'h2001, 0);
     envia_16b(16'h3002, 0);
     envia_16b(16'h4003, 0);
-    envia_16b(16'h5004, 0);
+    envia_16b(16'h1111, 0);
 
     
     #200000;

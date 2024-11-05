@@ -43,8 +43,8 @@ module receptor_16_uc(
     endcase
   end
 
-  assign load_data_low = (Eatual == CARREGA_2);
-  assign load_data_high = (Eatual == CARREGA_1);
+  assign load_data_low = (Eatual == CARREGA_1);
+  assign load_data_high = (Eatual == CARREGA_2);
   assign pronto = (Eatual == FIM);
   assign erro = (Eatual == ERRO);
 

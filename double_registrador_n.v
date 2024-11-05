@@ -15,9 +15,9 @@ module double_registrador_n #(parameter N = 8) (
       if (clear)
         IQ <= 0;
       else if (load_low)
-        IQ <= {D_half, IQ[N/2-1:0]};
-      else if (load_high)
         IQ <= {IQ[N-1:N/2], D_half};
+      else if (load_high)
+        IQ <= {D_half, IQ[N/2-1:0]};
       else if (load)
         IQ <= D;
 
