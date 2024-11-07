@@ -54,16 +54,31 @@ module dht11 (
   assign dht_bus = dir ? dht_out : 1'bz; // dir = 1, write
   assign dht_in  = dir ? 1'bz : dht_bus; // dir = 0, read
 
+  // Lógica de saída combinatória
+  always @* begin
+    if (state == SEND_SYNC_H || state == SEND_SYNC_L) begin
+      dir = WRITE;
+    end
+    else begin
+      dir = READ;
+    end
+
+    if (state == SEND_SYNC_H || state == RECEIVE_SYNC_H) begin
+      dht_out = 1;
+    end
+    else begin
+      dht_out = 0;
+    end
+  end
+
   always @(posedge clock or posedge reset) begin
     if (reset) begin
       time_counter <= 0;
-      dir <= WRITE;
       bit_counter <= 39;
       temperatura <= 0;
       umidade <= 0;
       dht_data <= 0;
       state <= IDLE;
-      dht_out <= 1;
       error <= 0;
       pronto <= 0;
     end
@@ -78,8 +93,6 @@ module dht11 (
           end
         end
         SEND_SYNC_L: begin
-          dir <= WRITE;
-          dht_out <= 0;
           if (time_counter < TIME_18us - 1) begin
             time_counter <= time_counter + 1'b1;
             state <= SEND_SYNC_L;
@@ -90,20 +103,16 @@ module dht11 (
           end
         end
         SEND_SYNC_H: begin
-          dir <= WRITE;
-          dht_out <= 1;
           if (time_counter < TIME_20us - 1) begin
             state <= SEND_SYNC_H;
             time_counter <= time_counter + 1'b1;
           end
           else begin
-            dir <= READ;
             time_counter <= 0;
             state <= RECEIVE_SYNC_L;
           end
         end
         RECEIVE_SYNC_L: begin
-          dir <= READ;
           if (dht_in == 0 && time_counter < TIME_80us - 1) begin
             state <= RECEIVE_SYNC_L;
             time_counter <= time_counter + 1'b1;
@@ -119,7 +128,6 @@ module dht11 (
           end
         end
         RECEIVE_SYNC_H: begin
-          dir <= READ;
           if (dht_in == 1 && time_counter < TIME_80us - 1) begin
             state <= RECEIVE_SYNC_H;
             time_counter <= time_counter + 1'b1;
@@ -135,7 +143,6 @@ module dht11 (
           end
         end
         RECEIVE_PRE_BIT_L: begin
-          dir <= READ;
           if (time_counter < TIME_100us - 1) begin // Timeout
             if (dht_in == 1) begin
               time_counter <= 0;
@@ -150,7 +157,6 @@ module dht11 (
           end
         end
         RECEIVE_BIT: begin
-          dir <= READ;
           if (time_counter < TIME_100us - 1) begin // Condição de timeout
             time_counter <= time_counter + 1'b1;
             if (dht_in == 0) begin
@@ -165,7 +171,6 @@ module dht11 (
           end
         end
         INSPECT_BIT: begin
-          dir <= READ;
           bit_counter <= bit_counter - 1'b1;
           if (time_counter < TIME_50us - 1) begin
             // Received 0

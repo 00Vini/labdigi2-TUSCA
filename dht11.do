@@ -16,9 +16,12 @@ add wave -noupdate -radix unsigned /dht11_tb/UUT/time_counter
 add wave -noupdate -radix hexadecimal /dht11_tb/UUT/dht_data
 add wave -noupdate -radix hexadecimal /dht11_tb/umidade
 add wave -noupdate -radix hexadecimal /dht11_tb/temperatura
+add wave -noupdate /dht11_tb/UUT/dir
+add wave -noupdate /dht11_tb/dir
+add wave -noupdate /dht11_tb/UUT/clock
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 17} {38210 ns} 0} {{Cursor 19} {2182730 ns} 0}
-quietly wave cursor active 2
+WaveRestoreCursors {{Cursor 8} {38217 ns} 0} {{Cursor 9} {18210 ns} 0}
+quietly wave cursor active 1
 configure wave -namecolwidth 178
 configure wave -valuecolwidth 100
 configure wave -justifyvalue left
@@ -33,4 +36,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ns
 update
-WaveRestoreZoom {2007443 ns} {4380893 ns}
+WaveRestoreZoom {4261702 ns} {4263010 ns}
