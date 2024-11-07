@@ -19,7 +19,8 @@ module dht11_tb;
     .temperatura(temperatura),
     .umidade(umidade),
     .error(error),
-    .pronto(pronto)
+    .pronto(pronto),
+    .db_estado()
   );
 
   always #(CLOCK_PERIOD / 2) clock = ~clock;

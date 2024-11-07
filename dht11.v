@@ -22,11 +22,12 @@ module dht11 (
   output reg [15:0] temperatura,
   output reg [15:0] umidade,
   output reg pronto,
-  output reg error
+  output reg error,
+  output [3:0] db_estado
 );
 
-  localparam TIME_80us = 4000,
-             TIME_18us = 900,
+  localparam TIME_80us = 5000,
+             TIME_18ms = 900000,
              TIME_20us = 1000,
              TIME_50us = 2500,
              TIME_100us = 5000;
@@ -48,8 +49,10 @@ module dht11 (
   reg [3:0]            state;
   reg [39:0]           dht_data;
   reg [$clog2(39)-1:0]   bit_counter;
-  reg [$clog2(5000)-1:0] time_counter;
+  reg [$clog2(900000)-1:0] time_counter;
   reg                  dir, dht_out;
+
+  assign db_estado = state;
 
   assign dht_bus = dir ? dht_out : 1'bz; // dir = 1, write
   assign dht_in  = dir ? 1'bz : dht_bus; // dir = 0, read
@@ -87,13 +90,20 @@ module dht11 (
         IDLE: begin
           if (start) begin
             state <= SEND_SYNC_L;
+            time_counter <= 0;
+            bit_counter <= 39;
+            temperatura <= 0;
+            umidade <= 0;
+            dht_data <= 0;
+            error <= 0;
+            pronto <= 0;
           end
           else begin
             state <= IDLE;
           end
         end
         SEND_SYNC_L: begin
-          if (time_counter < TIME_18us - 1) begin
+          if (time_counter < TIME_18ms - 1) begin
             time_counter <= time_counter + 1'b1;
             state <= SEND_SYNC_L;
           end
@@ -113,33 +123,33 @@ module dht11 (
           end
         end
         RECEIVE_SYNC_L: begin
-          if (dht_in == 0 && time_counter < TIME_80us - 1) begin
-            state <= RECEIVE_SYNC_L;
-            time_counter <= time_counter + 1'b1;
-          end
-          else begin
-            if (dht_in == 1) begin
-              state <= ERRO;
+          if (time_counter < TIME_80us - 1) begin
+            if (dht_in) begin
+              state <= RECEIVE_SYNC_H;
+              time_counter <= 0;
             end
             else begin
-              time_counter <= 0;
-              state <= RECEIVE_SYNC_H;
+              state <= RECEIVE_SYNC_L;
+              time_counter <= time_counter + 1'b1;
             end
+          end
+          else begin
+            state <= ERRO;
           end
         end
         RECEIVE_SYNC_H: begin
-          if (dht_in == 1 && time_counter < TIME_80us - 1) begin
-            state <= RECEIVE_SYNC_H;
-            time_counter <= time_counter + 1'b1;
-          end
-          else begin
+          if (time_counter < TIME_80us - 1) begin
             if (dht_in == 0) begin
-              state <= ERRO;
+              state <= RECEIVE_PRE_BIT_L;
+              time_counter <= 0;
             end
             else begin
-              time_counter <= 0;
-              state <= RECEIVE_PRE_BIT_L;
+              state <= RECEIVE_SYNC_H;
+              time_counter <= time_counter + 1'b1;
             end
+          end
+          else begin
+            state <= ERRO;
           end
         end
         RECEIVE_PRE_BIT_L: begin
@@ -202,6 +212,7 @@ module dht11 (
           temperatura <= dht_data[23:8];
           pronto <= 1;
         end
+        default: state <= IDLE;
       endcase
     end
   end
