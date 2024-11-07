@@ -30,7 +30,7 @@ module dht11 (
              TIME_18ms = 900000,
              TIME_20us = 1000,
              TIME_50us = 2500,
-             TIME_100us = 5000;
+             TIME_TIMEOUT = 10000;
   localparam READ = 0, WRITE = 1;
   
   localparam IDLE = 0,
@@ -123,51 +123,52 @@ module dht11 (
           end
         end
         RECEIVE_SYNC_L: begin
-          if (time_counter < TIME_80us - 1) begin
-            if (dht_in) begin
-              state <= RECEIVE_SYNC_H;
-              time_counter <= 0;
-            end
-            else begin
-              state <= RECEIVE_SYNC_L;
-              time_counter <= time_counter + 1'b1;
-            end
+          if (dht_in == 0 && time_counter < TIME_80us - 1) begin
+            state <= RECEIVE_SYNC_L;
+            time_counter <= time_counter + 1'b1;
           end
           else begin
-            state <= ERRO;
+            time_counter <= 0;
+            if (dht_in == 1) begin
+              state <= RECEIVE_SYNC_H;
+            end
+            else begin
+              state <= ERRO;
+            end
           end
         end
         RECEIVE_SYNC_H: begin
-          if (time_counter < TIME_80us - 1) begin
-            if (dht_in == 0) begin
-              state <= RECEIVE_PRE_BIT_L;
-              time_counter <= 0;
-            end
-            else begin
-              state <= RECEIVE_SYNC_H;
-              time_counter <= time_counter + 1'b1;
-            end
+          if (dht_in == 1 && time_counter < TIME_80us - 1) begin
+            state <= RECEIVE_SYNC_H;
+            time_counter <= time_counter + 1'b1;
           end
           else begin
-            state <= ERRO;
+            time_counter <= 0;
+             if (dht_in == 0) begin
+              state <= RECEIVE_PRE_BIT_L;
+            end
+            else begin
+              state <= ERRO;
+            end
           end
         end
         RECEIVE_PRE_BIT_L: begin
-          if (time_counter < TIME_100us - 1) begin // Timeout
-            if (dht_in == 1) begin
-              time_counter <= 0;
-              state <= RECEIVE_BIT;
-            end else begin
-              state <= RECEIVE_PRE_BIT_L;
-              time_counter <= time_counter + 1'b1;
-            end
+          if (dht_in == 0 && time_counter < TIME_TIMEOUT - 1) begin // Timeout
+            state <= RECEIVE_PRE_BIT_L;
+            time_counter <= time_counter + 1'b1;
           end
           else begin
-            state <= ERRO;
+            time_counter <= 0;
+            if (dht_in == 1) begin
+              state <= RECEIVE_BIT;
+            end
+            else begin
+              state <= ERRO;
+            end
           end
         end
         RECEIVE_BIT: begin
-          if (time_counter < TIME_100us - 1) begin // Condição de timeout
+          if (time_counter < TIME_TIMEOUT - 1) begin // Condição de timeout
             time_counter <= time_counter + 1'b1;
             if (dht_in == 0) begin
               state <= INSPECT_BIT;              
