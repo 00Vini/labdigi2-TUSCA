@@ -4,12 +4,12 @@
   DHT manda 0 por 80us
   DHT manda 1 por 80us
   Para cada bit
-    DHT manda 0 por ~50us (aqui sõ consideramos um timeout de 100us)
+    DHT manda 0 por ~50us (aqui só consideramos um timeout de 100us)
     Se o bit é 1:
       DHT manda 1 por 26us
     Se o bit é 0:
       DHT manda 0 por 70us
-    (Aqui consideraremos: se for maior que 50us, é 1, senão é 0)
+    (Aqui consideraremos: se for maior que 50us, é 1, caso contrário é 0)
   Fim bits 
 
 */

@@ -14,8 +14,8 @@ add wave -noupdate -radix unsigned /dht11_tb/UUT/state
 add wave -noupdate -radix unsigned /dht11_tb/UUT/bit_counter
 add wave -noupdate -radix unsigned /dht11_tb/UUT/time_counter
 add wave -noupdate -radix hexadecimal /dht11_tb/UUT/dht_data
-add wave -noupdate -radix binary /dht11_tb/temperatura
-add wave -noupdate -radix binary /dht11_tb/umidade
+add wave -noupdate -radix hexadecimal /dht11_tb/umidade
+add wave -noupdate -radix hexadecimal /dht11_tb/temperatura
 TreeUpdate [SetDefaultTree]
 WaveRestoreCursors {{Cursor 17} {38210 ns} 0} {{Cursor 19} {2182730 ns} 0}
 quietly wave cursor active 2
