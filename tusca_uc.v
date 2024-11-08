@@ -11,6 +11,7 @@ module tusca_uc (
   input definir_config,
   input fim_delay,
   input pronto_medida,
+  input erro_medida,
   input pronto_config,
   
   output [2:0] db_estado
@@ -39,7 +40,7 @@ module tusca_uc (
     case (Eatual)
       INICIAL: Eprox = start ? MEDE : INICIAL;
       MEDE: Eprox = ESPERA_MEDIDA;
-      ESPERA_MEDIDA: Eprox = pronto_medida ? RESETA_DELAY : ESPERA_MEDIDA;
+      ESPERA_MEDIDA: Eprox = (pronto_medida | erro_medida) ? RESETA_DELAY : ESPERA_MEDIDA;
       RESETA_DELAY: Eprox = ESPERA_DELAY;
       ESPERA_DELAY: Eprox = fim_delay ? MEDE : (definir_config ? PEDIR_CONFIG : ESPERA_DELAY);
       PEDIR_CONFIG: Eprox = ESPERA_CONFIG;
