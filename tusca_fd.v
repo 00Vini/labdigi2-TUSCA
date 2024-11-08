@@ -39,8 +39,8 @@ module tusca_fd #(
   wire [15:0] s_temp, s_umidade;
   wire [31:0] s_data_medida;
   wire [15:0] s_data_config;
-  wire [15:0] s_lim_umidade, s_lim_temp1, s_lim_temp2, s_lim_temp3, s_lim_temp4;
-  wire [1:0] s_nivel_temperatura;
+  wire [15:0] s_lim_umidade, s_lim_temp1, s_lim_temp2, s_lim_temp3, s_lim_temp4, s_lim_temp5, s_lim_temp6, s_lim_temp7;
+  wire [2:0] s_nivel_temperatura;
 
   assign db_nivel_temperatura = s_nivel_temperatura;
   assign db_temperatura = s_temp;
@@ -73,6 +73,9 @@ module tusca_fd #(
     .temp_lim2_out(s_lim_temp2),
     .temp_lim3_out(s_lim_temp3),
     .temp_lim4_out(s_lim_temp4),
+    .temp_lim5_out(s_lim_temp5),
+    .temp_lim6_out(s_lim_temp6),
+    .temp_lim7_out(s_lim_temp7),
     .umidade_lim_out(s_lim_umidade),
     .erro_config(erro_config),
     .pronto_config(pronto_config),
@@ -86,6 +89,9 @@ module tusca_fd #(
     .lim_temp2(s_lim_temp2),
     .lim_temp3(s_lim_temp3),
     .lim_temp4(s_lim_temp4),
+    .lim_temp5(s_lim_temp5),
+    .lim_temp6(s_lim_temp6),
+    .lim_temp7(s_lim_temp7),
     .nivel(s_nivel_temperatura)
   );
 
@@ -98,7 +104,7 @@ module tusca_fd #(
   controle_ventoinha cont_ventoinha (
     .clock(clock),
     .reset(reset),
-    .s_nivel(s_nivel_temperatura),
+    .nivel(s_nivel_temperatura),
     .pwm_ventoinha(pwm_ventoinha)
   );
 
