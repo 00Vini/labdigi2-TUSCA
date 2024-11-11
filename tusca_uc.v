@@ -16,7 +16,7 @@ module tusca_uc (
   input pronto_config,
   input pronto_transmissao_medida,
   
-  output [2:0] db_estado
+  output [3:0] db_estado
 );
 
   localparam INICIAL = 4'd0,

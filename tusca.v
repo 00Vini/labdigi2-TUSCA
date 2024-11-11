@@ -28,7 +28,7 @@ module tusca #(
   output[6:0] db_estado_recepcao_config,
   output[6:0] db_estado_transmissao_medida,
   output[6:0] db_mux,
-  output[1:0] db_nivel_temperatura,
+  output[2:0] db_nivel_temperatura,
   output db_pwm_ventoinha,
   output db_pwm_servo,
   output db_rele,
@@ -39,8 +39,8 @@ module tusca #(
 
   wire s_medir_dht11, s_conta_delay, s_zera_delay, s_receber_config, s_fim_delay, s_pronto_medida, s_pronto_config, s_start, s_definir_config, s_erro_medida, s_transmite_medida, s_pronto_transmissao_medida;
 
-  wire [2:0] s_db_estado, s_db_estado_interface_dht11, s_db_estado_config_manager, s_db_estado_recepcao_config, s_db_estado_transmissao_medida;
-  wire [3:0] s_hex5;
+  wire [2:0] s_db_estado_interface_dht11, s_db_estado_config_manager, s_db_estado_recepcao_config, s_db_estado_transmissao_medida;
+  wire [3:0] s_hex5, s_db_estado;
   wire [15:0] s_db_temperatura, s_db_umidade, s_db_lim_temp1, s_db_lim_temp2, s_db_lim_temp3, s_db_lim_temp4, s_db_lim_umidade;
 
   tusca_uc uc (
@@ -109,7 +109,7 @@ module tusca #(
   assign db_tx_serial = tx_serial;
 
   hexa7seg H0 (
-    .hexa({1'b0, s_db_estado}),
+    .hexa(s_db_estado),
     .display(db_estado)
   );
 

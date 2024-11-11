@@ -66,7 +66,7 @@ module tusca_tb;
     .db_estado_interface_dht11(),
     .db_estado_config_manager(),
     .db_estado_recepcao_config(),
-    .db_estado_recepcao_medida(),
+    .db_estado_transmissao_medida(),
     .db_mux(),
     .db_nivel_temperatura(),
     .db_pwm_ventoinha(),
@@ -93,7 +93,7 @@ module tusca_tb;
     envia_16b(16'h2202, 1, 0); // Temperatura
     envia_16b(16'h1234, 1, 0); // Umidade
 
-    definir_config = 1'b1;
+    #800000 definir_config = 1'b1;
     #40;
     definir_config = 1'b0;
     envia_16b(16'h1000, 0, 0);

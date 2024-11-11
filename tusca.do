@@ -56,8 +56,8 @@ add wave -noupdate /tusca_tb/UUT/fd/s_lim_umidade
 add wave -noupdate /tusca_tb/UUT/fd/comp_temps/temp
 add wave -noupdate /tusca_tb/UUT/fd/comp_temps/nivel
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 4} {4479288 ns} 0} {{Cursor 3} {9092190 ns} 0}
-quietly wave cursor active 1
+WaveRestoreCursors {{Cursor 4} {7054325 ns} 0} {{Cursor 3} {7104244 ns} 0}
+quietly wave cursor active 2
 configure wave -namecolwidth 688
 configure wave -valuecolwidth 100
 configure wave -justifyvalue left
@@ -72,4 +72,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ns
 update
-WaveRestoreZoom {3757466 ns} {5452605 ns}
+WaveRestoreZoom {2484276 ns} {7537617 ns}

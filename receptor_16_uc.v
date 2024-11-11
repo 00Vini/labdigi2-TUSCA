@@ -8,7 +8,8 @@ module receptor_16_uc(
   output load_data_high,
   output load_data_low,
   output erro,
-  output pronto
+  output pronto,
+  output [2:0] db_estado
 );
 
   localparam RECEBE_1 = 3'd0,
@@ -19,7 +20,7 @@ module receptor_16_uc(
              ERRO = 3'd5;
 
   reg [2:0] Eatual, Eprox;
-  
+
   assign db_estado = Eatual;
 
   always @(posedge clock or posedge reset) begin

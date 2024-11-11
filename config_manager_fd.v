@@ -49,7 +49,8 @@ module config_manager_fd(
     .rx_serial(rx_serial),
     .data_out(s_data_config),
     .erro(s_parity_error),
-    .pronto(fim_recepcao_config)
+    .pronto(fim_recepcao_config),
+    .db_estado(db_estado_recepcao_config)
   );
   
   generate
