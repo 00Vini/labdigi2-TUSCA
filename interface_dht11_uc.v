@@ -19,7 +19,7 @@ module interface_dht11_uc (
   output medir_out,
   output load_temperatura,
   output load_umidade,
-  output [2:0] db_estado
+  output [3:0] db_estado
 );
 
   localparam INICIAL = 4'd0,

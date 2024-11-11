@@ -8,7 +8,8 @@ module bin2bcd_teste(
   output pronto
 );
 
-  wire s_hex0, s_hex1;
+  wire[4:0] s_hex0, s_hex1;
+  wire s_start;
 
   bin2bcd #(
     .W(7),

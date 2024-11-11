@@ -10,6 +10,7 @@ module transmissao_medida_teste(
 );
   
   wire s_transmite;
+  wire [2:0] db_estado;
 
   transmissao_medida UUT (
     .clock(clock),

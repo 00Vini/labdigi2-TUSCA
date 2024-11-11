@@ -8,7 +8,7 @@ module interface_dht11(
   output [15:0] temeperatura_out,
   output [15:0] umidade_out,
   output medir_out,
-  output[2:0] db_estado,
+  output[3:0] db_estado,
   output[2:0] db_estado_recepcao_medida
 );
 

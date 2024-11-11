@@ -19,10 +19,10 @@ module transmissao_medida_fd(
   wire [7:0] s_dado_bcd;
   wire [1:0] seletor_dado;
 
-  assign s_medida = seletor_dado == 2'b00 ? {1'b0, temperatura[14:8]} :
-                    seletor_dado == 2'b01 ? {1'b0, temperatura[6:0]} :
-                    seletor_dado == 2'b10 ? {1'b0, umidade[14:8]} : 
-                    seletor_dado == 2'b11 ? {1'b0, umidade[6:0]} : 7'b0;
+  assign s_medida = seletor_dado == 2'b00 ? temperatura[14:8] :
+                    seletor_dado == 2'b01 ? temperatura[6:0]  :
+                    seletor_dado == 2'b10 ? umidade[14:8]     : 
+                    seletor_dado == 2'b11 ? umidade[6:0]      : 7'b0;
 
 
   contador_m #(
