@@ -46,6 +46,16 @@ module dht11_tb;
   input[39:0] word;
   integer i;
   begin
+    dir = 0;
+    start = 1;
+    #20 start = 0;
+    #18000000;
+    #20000;
+    dir = 1;
+    dht_bus_value = 0;
+    #80000;
+    dht_bus_value = 1;
+    #80000;
     for (i = 39; i >= 0; i = i - 1) begin
       envia_bit(word[i]);
     end
@@ -65,31 +75,11 @@ module dht11_tb;
     reset = 0;
     #100;
 
-    start = 1;
-    #20;
-    start = 0;
-    
-    #18000000;
-    #20000;
-    dir = 1;
-    dht_bus_value = 0;
-    #80000;
-    dht_bus_value = 1;
-    #80000;
     envia_palavra(40'h12345abcde);
     #100000;
 
-    dir = 0;
-    start = 1;
-    #20 start = 0;
-    #18000000;
-    #20000;
-    dir = 1;
-    dht_bus_value = 0;
-    #80000;
-    dht_bus_value = 1;
-    #80000;
     envia_palavra(40'h98765fedcb);
+    #100000;
     $stop;
   end
 

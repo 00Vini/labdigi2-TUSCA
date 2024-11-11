@@ -15,7 +15,7 @@ module tusca_fd #(
   input rx_serial_medida,
   input rx_serial_config,
 
-  output medir_dht11_out,
+  inout dht_bus,
   output fim_delay,
   output pronto_medida,
   output erro_medida,
@@ -26,7 +26,7 @@ module tusca_fd #(
   output pwm_servo,
   output pronto_transmite_medida,
   output tx_serial,
-  output[2:0] db_estado_interface_dht11,
+  output[3:0] db_estado_interface_dht11,
   output[2:0] db_estado_config_manager,
   output[2:0] db_estado_recepcao_config,
   output[2:0] db_estado_recepcao_medida,
@@ -56,18 +56,16 @@ module tusca_fd #(
   assign db_lim_temp4 = s_lim_temp4;
   assign db_lim_umidade = s_lim_umidade;
 
-  interface_dht11 interface_dht11 (
+  dht11 interface_dht11 (
     .clock(clock),
     .reset(reset),
-    .medir_dht11(medir_dht11),
-    .rx_serial(rx_serial_medida),
-    .pronto_medida(pronto_medida),
-    .erro(erro_medida),
-    .temeperatura_out(s_temp),
-    .umidade_out(s_umidade),
-    .medir_out(medir_dht11_out),
-    .db_estado(db_estado_interface_dht11),
-    .db_estado_recepcao_medida(db_estado_recepcao_medida)
+    .dht_bus(dht_bus),
+    .start(medir_dht11),
+    .pronto(pronto_medida),
+    .error(erro_medida),
+    .temperatura(s_temp),
+    .umidade(s_umidade),
+    .db_estado(db_estado_interface_dht11)
   );
 
   config_manager cnf (

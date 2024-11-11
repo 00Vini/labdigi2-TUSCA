@@ -92,8 +92,6 @@ module dht11 (
             state <= SEND_SYNC_L;
             time_counter <= 0;
             bit_counter <= 39;
-            temperatura <= 0;
-            umidade <= 0;
             dht_data <= 0;
             error <= 0;
             pronto <= 0;
