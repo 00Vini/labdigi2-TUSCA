@@ -26,11 +26,11 @@ module dht11 (
   output [3:0] db_estado
 );
 
-  localparam TIME_80us = 5000,
-             TIME_18ms = 900000,
-             TIME_20us = 1000,
-             TIME_50us = 2500,
-             TIME_TIMEOUT = 10000;
+  localparam TIME_80us = 5000, // 100us
+             TIME_18ms = 900000, //18ms
+             TIME_20us = 1000, // 20us
+             TIME_50us = 2500, // 50us
+             TIME_TIMEOUT = 10000; // 20us
   localparam READ = 0, WRITE = 1;
   
   localparam IDLE = 0,

@@ -69,7 +69,7 @@ module dht11_tb;
     #20;
     start = 0;
     
-    #18000;
+    #18000000;
     #20000;
     dir = 1;
     dht_bus_value = 0;
@@ -78,6 +78,18 @@ module dht11_tb;
     #80000;
     envia_palavra(40'h12345abcde);
     #100000;
+
+    dir = 0;
+    start = 1;
+    #20 start = 0;
+    #18000000;
+    #20000;
+    dir = 1;
+    dht_bus_value = 0;
+    #80000;
+    dht_bus_value = 1;
+    #80000;
+    envia_palavra(40'h98765fedcb);
     $stop;
   end
 
