@@ -18,6 +18,8 @@ add wave -noupdate /tusca_tb/UUT/fd/interface_dht11/interface_dht11_uc/Eatual
 add wave -noupdate /tusca_tb/UUT/fd/cnf/config_manager_uc/Eatual
 add wave -noupdate /tusca_tb/UUT/fd/s_umidade
 add wave -noupdate /tusca_tb/UUT/fd/s_temp
+add wave -noupdate /tusca_tb/UUT/fd/transmissao/FD/transmite_bcd/U2_FD/s_valor_ascii
+add wave -noupdate /tusca_tb/UUT/tx_serial
 add wave -noupdate /tusca_tb/UUT/fd/s_nivel_temperatura
 add wave -noupdate /tusca_tb/UUT/fd/db_nivel_temperatura
 add wave -noupdate /tusca_tb/UUT/fd/cnf/umidade_lim_out
@@ -30,7 +32,6 @@ add wave -noupdate /tusca_tb/UUT/fd/cnf/temp_lim6_out
 add wave -noupdate /tusca_tb/UUT/fd/cnf/temp_lim7_out
 add wave -noupdate /tusca_tb/UUT/fd/interface_dht11/pronto_medida
 add wave -noupdate /tusca_tb/UUT/fd/interface_dht11/interface_dht11_uc/Eatual
-add wave -noupdate /tusca_tb/UUT/fd/interface_dht11/pronto_medida
 add wave -noupdate /tusca_tb/UUT/fd/interface_dht11/interface_dht11_fd/receptor_medida/receptor_16_uc/parity_ok
 add wave -noupdate /tusca_tb/UUT/fd/interface_dht11/interface_dht11_uc/medida_ok
 add wave -noupdate /tusca_tb/UUT/fd/interface_dht11/interface_dht11_fd/fim_tentativas
@@ -55,8 +56,8 @@ add wave -noupdate /tusca_tb/UUT/fd/s_lim_umidade
 add wave -noupdate /tusca_tb/UUT/fd/comp_temps/temp
 add wave -noupdate /tusca_tb/UUT/fd/comp_temps/nivel
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 4} {5303738 ns} 0} {{Cursor 3} {9092190 ns} 0}
-quietly wave cursor active 2
+WaveRestoreCursors {{Cursor 4} {4479288 ns} 0} {{Cursor 3} {9092190 ns} 0}
+quietly wave cursor active 1
 configure wave -namecolwidth 688
 configure wave -valuecolwidth 100
 configure wave -justifyvalue left
@@ -71,4 +72,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ns
 update
-WaveRestoreZoom {1384104 ns} {11425952 ns}
+WaveRestoreZoom {3757466 ns} {5452605 ns}

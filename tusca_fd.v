@@ -11,6 +11,7 @@ module tusca_fd #(
   input medir_dht11,
   input receber_config,
 
+  input transmite_medida,
   input rx_serial_medida,
   input rx_serial_config,
 
@@ -23,6 +24,8 @@ module tusca_fd #(
   output rele,
   output pwm_ventoinha,
   output pwm_servo,
+  output pronto_transmite_medida,
+  output tx_serial,
   output[2:0] db_estado_interface_dht11,
   output[2:0] db_estado_config_manager,
   output[2:0] db_estado_recepcao_config,
@@ -121,6 +124,16 @@ module tusca_fd #(
     .Q       ( ),
     .fim     ( fim_delay ),
     .meio    ( )
+  );
+
+  transmissao_medida transmissao (
+    .clock ( clock ),
+    .reset ( reset ),
+    .temperatura ( s_temp ),
+    .umidade ( s_umidade ),
+    .transmite( transmite_medida ),
+    .tx_serial( tx_serial ),
+    .pronto( pronto_transmite_medida )
   );
 
   controle_servo #( 

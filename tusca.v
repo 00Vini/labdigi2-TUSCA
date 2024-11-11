@@ -19,6 +19,7 @@ module tusca #(
   output rele,
   output pwm_ventoinha,
   output pwm_servo,
+  output tx_serial,
 
   input[2:0] db_sel,
   output [6:0] db_estado,
@@ -34,7 +35,7 @@ module tusca #(
   output db_rx_serial_medida
 );
 
-  wire s_medir_dht11, s_conta_delay, s_zera_delay, s_receber_config, s_fim_delay, s_pronto_medida, s_pronto_config, s_start, s_definir_config, s_erro_medida;
+  wire s_medir_dht11, s_conta_delay, s_zera_delay, s_receber_config, s_fim_delay, s_pronto_medida, s_pronto_config, s_start, s_definir_config, s_erro_medida, s_transmite_medida, s_pronto_transmissao_medida;
 
   wire [2:0] s_db_estado, s_db_estado_interface_dht11, s_db_estado_config_manager, s_db_estado_recepcao_config, s_db_estado_recepcao_medida;
   wire [3:0] s_hex5;
@@ -49,10 +50,12 @@ module tusca #(
     .zera_delay(s_zera_delay),
     .receber_config(s_receber_config),
     .definir_config(s_definir_config),
+    .transmite_medida(s_transmite_medida),
     .fim_delay(s_fim_delay),
     .pronto_medida(s_pronto_medida),
     .erro_medida(s_erro_medida),
     .pronto_config(s_pronto_config),
+    .pronto_transmissao_medida(s_pronto_transmissao_medida),
     .db_estado(s_db_estado)
   );
 
@@ -70,6 +73,8 @@ module tusca #(
     .medir_dht11(s_medir_dht11),
     .receber_config(s_receber_config),
     .medir_dht11_out(medir_dht11_out),
+    .transmite_medida(s_transmite_medida),
+    .pronto_transmite_medida(s_pronto_transmissao_medida),
     .fim_delay(s_fim_delay),
     .pronto_medida(s_pronto_medida),
     .erro_medida(s_erro_medida),
@@ -78,6 +83,7 @@ module tusca #(
     .rele(rele),
     .pwm_ventoinha(pwm_ventoinha),
     .pwm_servo(pwm_servo),
+    .tx_serial(tx_serial),
     .db_estado_interface_dht11(s_db_estado_interface_dht11),
     .db_estado_config_manager(s_db_estado_config_manager),
     .db_estado_recepcao_config(s_db_estado_recepcao_config),
