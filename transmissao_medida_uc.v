@@ -11,7 +11,8 @@ module transmissao_medida_uc (
   output conta_contador,
   output converte_bcd,
   output tx_transmite,
-  output pronto
+  output pronto,
+  output [2:0] db_estado
 );
 
   localparam IDLE = 3'd0,
@@ -24,6 +25,8 @@ module transmissao_medida_uc (
              FIM = 3'd7;
 
   reg [2:0] Eatual, Eprox;
+
+  assign db_estado = Eatual;
 
   always @(posedge clock or posedge reset) begin
     if (reset) begin

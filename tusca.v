@@ -26,18 +26,20 @@ module tusca #(
   output[6:0] db_estado_interface_dht11,
   output[6:0] db_estado_config_manager,
   output[6:0] db_estado_recepcao_config,
-  output[6:0] db_estado_recepcao_medida,
+  output[6:0] db_estado_transmissao_medida,
   output[6:0] db_mux,
   output[1:0] db_nivel_temperatura,
   output db_pwm_ventoinha,
   output db_pwm_servo,
+  output db_rele,
   output db_rx_serial_config,
-  output db_rx_serial_medida
+  output db_rx_serial_medida,
+  output db_tx_serial
 );
 
   wire s_medir_dht11, s_conta_delay, s_zera_delay, s_receber_config, s_fim_delay, s_pronto_medida, s_pronto_config, s_start, s_definir_config, s_erro_medida, s_transmite_medida, s_pronto_transmissao_medida;
 
-  wire [2:0] s_db_estado, s_db_estado_interface_dht11, s_db_estado_config_manager, s_db_estado_recepcao_config, s_db_estado_recepcao_medida;
+  wire [2:0] s_db_estado, s_db_estado_interface_dht11, s_db_estado_config_manager, s_db_estado_recepcao_config, s_db_estado_transmissao_medida;
   wire [3:0] s_hex5;
   wire [15:0] s_db_temperatura, s_db_umidade, s_db_lim_temp1, s_db_lim_temp2, s_db_lim_temp3, s_db_lim_temp4, s_db_lim_umidade;
 
@@ -87,7 +89,8 @@ module tusca #(
     .db_estado_interface_dht11(s_db_estado_interface_dht11),
     .db_estado_config_manager(s_db_estado_config_manager),
     .db_estado_recepcao_config(s_db_estado_recepcao_config),
-    .db_estado_recepcao_medida(s_db_estado_recepcao_medida),
+    .db_estado_recepcao_medida(),
+    .db_estado_transmissao_medida(s_db_estado_transmissao_medida),
     .db_nivel_temperatura(db_nivel_temperatura),
     .db_temperatura(s_db_temperatura),
     .db_umidade(s_db_umidade),
@@ -102,6 +105,8 @@ module tusca #(
   assign db_pwm_ventoinha = pwm_ventoinha;
   assign db_rx_serial_config = rx_serial_config;
   assign db_rx_serial_medida = rx_serial_medida;
+  assign db_rele = rele;
+  assign db_tx_serial = tx_serial;
 
   hexa7seg H0 (
     .hexa({1'b0, s_db_estado}),
@@ -124,8 +129,8 @@ module tusca #(
   );
 
   hexa7seg H4 (
-    .hexa({1'b0, s_db_estado_recepcao_medida}),
-    .display(db_estado_recepcao_medida)
+    .hexa({1'b0, s_db_estado_transmissao_medida }),
+    .display(db_estado_transmissao_medida)
   );
 
   hexa7seg H5 (

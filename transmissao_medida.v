@@ -5,7 +5,8 @@ module transmissao_medida (
   input [15:0] umidade,
   input transmite,
   output tx_serial,
-  output pronto
+  output pronto,
+  output [2:0] db_estado
 );
 
   wire s_converte_bcd, s_tx_transmite, s_conta_contador, s_zera_contador, s_fim_contador, s_pronto_transmissao, s_pronto_bcd;
@@ -36,7 +37,8 @@ module transmissao_medida (
     .conta_contador(s_conta_contador),
     .converte_bcd(s_converte_bcd),
     .tx_transmite(s_tx_transmite),
-    .pronto(pronto)
+    .pronto(pronto),
+    .db_estado(db_estado)
   );
 
 endmodule

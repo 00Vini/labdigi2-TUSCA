@@ -30,6 +30,7 @@ module tusca_fd #(
   output[2:0] db_estado_config_manager,
   output[2:0] db_estado_recepcao_config,
   output[2:0] db_estado_recepcao_medida,
+  output[2:0] db_estado_transmissao_medida,
   output[1:0] db_nivel_temperatura,
   output[15:0] db_temperatura,
   output[15:0] db_umidade,
@@ -133,7 +134,8 @@ module tusca_fd #(
     .umidade ( s_umidade ),
     .transmite( transmite_medida ),
     .tx_serial( tx_serial ),
-    .pronto( pronto_transmite_medida )
+    .pronto( pronto_transmite_medida ),
+    .db_estado( db_estado_transmissao )
   );
 
   controle_servo #( 
