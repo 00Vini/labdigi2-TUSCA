@@ -21,8 +21,8 @@
     // composicao dos dados seriais
     assign s_dados[0]   = 1'b1;             // repouso
     assign s_dados[1]   = 1'b0;             // start bit
-    assign s_dados[9:2] = dados_ascii[6:0]; // dado
-    assign s_dados[10]   = ~(^dados_ascii[6:0]); // paridade ímpar
+    assign s_dados[9:2] = dados_ascii[7:0]; // dado
+    assign s_dados[10]   = ~(^dados_ascii[7:0]); // paridade ímpar
     assign s_dados[11]  = 1'b1;             // stop bit
   
     // Instanciação do deslocador_n
