@@ -1,6 +1,7 @@
 // TODO
-// - [ ] Adicionar timeout na medida do arduino
-// - [ ] Adicionar mais níveis de temperatura
+// - Adicionar timeout na medida do sensor e reseta-lo
+// - Adicionar checksum no sensor
+// - Adicionar entradas e saidas: display 7seg para o nivel, botao para definir config e para cancelar o definir config
 
 module tusca #(
   parameter PERIODO_CONTA = 2000,
