@@ -42,7 +42,7 @@ set_global_assignment -name DEVICE 5CEBA4F23C7
 set_global_assignment -name TOP_LEVEL_ENTITY tusca
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 21.1.1
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "00:45:24  NOVEMBER 04, 2024"
-set_global_assignment -name LAST_QUARTUS_VERSION "21.1.1 Lite Edition"
+set_global_assignment -name LAST_QUARTUS_VERSION "20.1.1 Lite Edition"
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
 set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
 set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
@@ -59,7 +59,6 @@ set_location_assignment PIN_T13 -to definir_config
 set_location_assignment PIN_L1 -to erro_config
 set_location_assignment PIN_U13 -to reset
 set_location_assignment PIN_T12 -to gira
-set_location_assignment PIN_H16 -to medir_dht11_out
 set_location_assignment PIN_H15 -to pwm_servo
 set_location_assignment PIN_A13 -to pwm_ventoinha
 set_location_assignment PIN_C13 -to rele
@@ -189,4 +188,5 @@ set_global_assignment -name VERILOG_FILE ../circuito_pwm.v
 set_global_assignment -name VERILOG_FILE ../bin2bcd_teste.v
 set_global_assignment -name VERILOG_FILE ../bin2bcd_tb.v
 set_global_assignment -name VERILOG_FILE ../bin2bcd.v
+set_location_assignment PIN_H16 -to dht_bus
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
