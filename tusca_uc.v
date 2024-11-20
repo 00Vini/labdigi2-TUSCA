@@ -8,6 +8,7 @@ module tusca_uc (
   output zera_delay,
   output receber_config,
   output transmite_medida,
+  output esperando_config,
 
   input definir_config,
   input cancelar_definir_config,
@@ -63,5 +64,6 @@ module tusca_uc (
   assign zera_delay = (Eatual == RESETA_DELAY);
   assign medir_dht11 = (Eatual == MEDE);
   assign transmite_medida = (Eatual == TRANSMITE_MEDIDA);
+  assign esperando_config = (Eatual == ESPERA_CONFIG);
 
 endmodule

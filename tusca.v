@@ -23,6 +23,7 @@ module tusca #(
   output pwm_ventoinha,
   output pwm_servo,
   output tx_serial,
+  output esperando_config,
 
   input[2:0] db_sel,
   output [6:0] db_estado,
@@ -55,6 +56,7 @@ module tusca #(
     .conta_delay(s_conta_delay),
     .zera_delay(s_zera_delay),
     .receber_config(s_receber_config),
+    .esperando_config(esperando_config),
     .cancelar_definir_config(s_cancelar_definir_config),
     .definir_config(s_definir_config),
     .transmite_medida(s_transmite_medida),
