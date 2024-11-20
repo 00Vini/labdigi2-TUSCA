@@ -80,7 +80,7 @@ module tusca_tb;
 
   tusca #(
     .PERIODO_DELAY(3500),
-    .TIMEOUT(5000)
+    .TIMEOUT(5000000)
   ) UUT (
     .clock(clock),
     .reset(reset),
@@ -122,7 +122,7 @@ module tusca_tb;
     start = 1;
     #20;
     start = 0;
-    medir_dht11(40'h12342202ab);
+    medir_dht11(40'h1234220262);
 
     #700000 definir_config = 1'b1;
     #40;

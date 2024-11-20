@@ -45,7 +45,7 @@ module medir_dht11_uc(
       MEDIR:         Eprox = ESPERA_MEDIDA;
       ESPERA_MEDIDA: Eprox = pronto_medida            ? ARMAZENAR     : 
                              !(timeout | erro_medida) ? ESPERA_MEDIDA : 
-                             fim_tentativas           ? ERRO_FINAL    : ESPERA_MEDIDA;
+                             fim_tentativas           ? ERRO_FINAL    : ERRO_MEDIR;
 
       ERRO_MEDIR: Eprox = PREPARA;
       ARMAZENAR:  Eprox = FIM_MEDIR;
@@ -59,7 +59,7 @@ module medir_dht11_uc(
   assign start_medida = (Eatual == MEDIR);
   
   assign reset_medida = (Eatual == PREPARA);
-  assign zera_tentativas = (Eatual == PREPARA);
+  assign zera_tentativas = (Eatual == INICIAL);
   assign zera_timeout = (Eatual == PREPARA);
   
   assign registra_medida = (Eatual == ARMAZENAR);
