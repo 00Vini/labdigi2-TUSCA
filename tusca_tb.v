@@ -122,7 +122,7 @@ module tusca_tb;
     start = 1;
     #20;
     start = 0;
-    medir_dht11(40'h1234220262);
+    medir_dht11(40'h123422026a);
 
     #700000 definir_config = 1'b1;
     #40;
@@ -136,11 +136,9 @@ module tusca_tb;
     envia_16b(16'h7008, 0, 0);
     envia_16b(16'h1111, 0, 0);
 
-    medir_dht11(40'h2345aab2ab); // Temperatura
-
-
-    
-    #800000;
+    medir_dht11(40'h2345aab2ab);
+    #5000000;
+    medir_dht11(40'h2345aab2c4);
     $stop;
   end
 

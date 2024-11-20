@@ -43,7 +43,9 @@ module dht11 (
              INSPECT_BIT = 7,
              CHECK_END = 8,
              END_RECEIVE = 9,
-             ERRO = 10;
+             ERRO = 10,
+             CHECKSUM = 11,
+             END_MEASURE = 12;
 
   wire                 dht_in;
   reg [3:0]            state;
@@ -206,10 +208,21 @@ module dht11 (
           error <= 1;
         end
         END_RECEIVE: begin
-          state <= IDLE;
+          state <= CHECKSUM;
           umidade <= dht_data[39:24];
           temperatura <= dht_data[23:8];
+        end
+        CHECKSUM: begin
+          if (dht_data[7:0] == umidade[15:8] + umidade[7:0] + temperatura[15:8] + temperatura[7:0]) begin
+            state <= END_MEASURE;
+          end
+          else begin
+            state <= ERRO;
+          end
+        end
+        END_MEASURE: begin
           pronto <= 1;
+          state <= IDLE;
         end
         default: state <= IDLE;
       endcase
