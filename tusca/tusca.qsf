@@ -42,7 +42,7 @@ set_global_assignment -name DEVICE 5CEBA4F23C7
 set_global_assignment -name TOP_LEVEL_ENTITY tusca
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 21.1.1
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "00:45:24  NOVEMBER 04, 2024"
-set_global_assignment -name LAST_QUARTUS_VERSION "20.1.1 Lite Edition"
+set_global_assignment -name LAST_QUARTUS_VERSION "21.1.1 Lite Edition"
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
 set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
 set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
@@ -55,7 +55,7 @@ set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_location_assignment PIN_M9 -to clock
-set_location_assignment PIN_T13 -to definir_config
+set_location_assignment PIN_T17 -to definir_config
 set_location_assignment PIN_L1 -to erro_config
 set_location_assignment PIN_U13 -to reset
 set_location_assignment PIN_T12 -to gira
@@ -63,12 +63,11 @@ set_location_assignment PIN_H15 -to pwm_servo
 set_location_assignment PIN_A13 -to pwm_ventoinha
 set_location_assignment PIN_C13 -to rele
 set_location_assignment PIN_G18 -to rx_serial_config
-set_location_assignment PIN_H18 -to rx_serial_medida
 set_location_assignment PIN_AA13 -to db_sel[0]
 set_location_assignment PIN_AB13 -to db_sel[1]
 set_location_assignment PIN_AB12 -to db_sel[2]
-set_location_assignment PIN_AA2 -to db_nivel_temperatura[0]
-set_location_assignment PIN_AA1 -to db_nivel_temperatura[1]
+set_location_assignment PIN_N16 -to db_nivel_temperatura[0]
+set_location_assignment PIN_B16 -to db_nivel_temperatura[1]
 set_location_assignment PIN_U21 -to db_estado[0]
 set_location_assignment PIN_V21 -to db_estado[1]
 set_location_assignment PIN_W22 -to db_estado[2]
@@ -107,8 +106,7 @@ set_location_assignment PIN_W19 -to db_mux[6]
 set_location_assignment PIN_A12 -to db_pwm_ventoinha
 set_location_assignment PIN_B12 -to db_pwm_servo
 set_location_assignment PIN_B13 -to db_rx_serial_config
-set_location_assignment PIN_D13 -to db_rx_serial_medida
-set_location_assignment PIN_V13 -to start
+set_location_assignment PIN_T15 -to start
 set_location_assignment PIN_U20 -to db_estado_transmissao_medida[0]
 set_location_assignment PIN_Y20 -to db_estado_transmissao_medida[1]
 set_location_assignment PIN_V20 -to db_estado_transmissao_medida[2]
@@ -119,7 +117,8 @@ set_location_assignment PIN_P9 -to db_estado_transmissao_medida[6]
 set_location_assignment PIN_N2 -to db_rele
 set_location_assignment PIN_J19 -to tx_serial
 set_location_assignment PIN_G17 -to db_tx_serial
-set_location_assignment PIN_W2 -to db_nivel_temperatura[2]
+set_location_assignment PIN_M16 -to db_nivel_temperatura[2]
+set_location_assignment PIN_H16 -to dht_bus
 set_global_assignment -name VERILOG_FILE ../tx_serial_uc.v
 set_global_assignment -name VERILOG_FILE ../tx_serial_8O1_fd.v
 set_global_assignment -name VERILOG_FILE ../tx_serial_8O1.v
@@ -152,6 +151,9 @@ set_global_assignment -name VERILOG_FILE ../receptor_16_uc.v
 set_global_assignment -name VERILOG_FILE ../receptor_16_tb.v
 set_global_assignment -name VERILOG_FILE ../receptor_16_fd.v
 set_global_assignment -name VERILOG_FILE ../receptor_16.v
+set_global_assignment -name VERILOG_FILE ../medir_dht11_uc.v
+set_global_assignment -name VERILOG_FILE ../medir_dht11_fd.v
+set_global_assignment -name VERILOG_FILE ../medir_dht11.v
 set_global_assignment -name VERILOG_FILE ../interface_hcsr04_uc.v
 set_global_assignment -name VERILOG_FILE ../interface_hcsr04_fd.v
 set_global_assignment -name VERILOG_FILE ../interface_hcsr04.v
@@ -188,5 +190,9 @@ set_global_assignment -name VERILOG_FILE ../circuito_pwm.v
 set_global_assignment -name VERILOG_FILE ../bin2bcd_teste.v
 set_global_assignment -name VERILOG_FILE ../bin2bcd_tb.v
 set_global_assignment -name VERILOG_FILE ../bin2bcd.v
-set_location_assignment PIN_H16 -to dht_bus
+set_location_assignment PIN_C16 -to db_nivel_temperatura[3]
+set_location_assignment PIN_D17 -to db_nivel_temperatura[4]
+set_location_assignment PIN_K20 -to db_nivel_temperatura[5]
+set_location_assignment PIN_K21 -to db_nivel_temperatura[6]
+set_location_assignment PIN_N1 -to db_erro_medida
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

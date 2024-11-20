@@ -12,6 +12,7 @@ module tusca #(
   input reset,
   input start,
   input definir_config,
+  input cancelar_definir_config,
   input gira,
   input rx_serial_config,
 
@@ -39,11 +40,11 @@ module tusca #(
   output db_erro_medida
 );
 
-  wire s_medir_dht11, s_conta_delay, s_zera_delay, s_receber_config, s_fim_delay, s_pronto_medida, s_pronto_config, s_start, s_definir_config, s_erro_medida, s_transmite_medida, s_pronto_transmissao_medida;
+  wire s_medir_dht11, s_conta_delay, s_zera_delay, s_receber_config, s_fim_delay, s_pronto_medida, s_pronto_config, s_start, s_definir_config, s_cancelar_definir_config, s_erro_medida, s_transmite_medida, s_pronto_transmissao_medida;
 
-  wire [2:0] s_db_estado_interface_dht11, s_db_estado_config_manager, s_db_estado_recepcao_config, s_db_estado_transmissao_medida;
+  wire [2:0] s_db_estado_interface_dht11, s_db_estado_recepcao_config, s_db_estado_transmissao_medida;
   wire [2:0] s_db_nivel_temperatura;
-  wire [3:0] s_hex5, s_db_estado;
+  wire [3:0] s_hex5, s_db_estado, s_db_estado_config_manager;
   wire [15:0] s_db_temperatura, s_db_umidade, s_db_lim_temp1, s_db_lim_temp2, s_db_lim_temp3, s_db_lim_temp4, s_db_lim_umidade;
 
   tusca_uc uc (
@@ -54,6 +55,7 @@ module tusca #(
     .conta_delay(s_conta_delay),
     .zera_delay(s_zera_delay),
     .receber_config(s_receber_config),
+    .cancelar_definir_config(s_cancelar_definir_config),
     .definir_config(s_definir_config),
     .transmite_medida(s_transmite_medida),
     .fim_delay(s_fim_delay),
@@ -92,7 +94,6 @@ module tusca #(
     .db_estado_interface_dht11(s_db_estado_interface_dht11),
     .db_estado_config_manager(s_db_estado_config_manager),
     .db_estado_recepcao_config(s_db_estado_recepcao_config),
-    .db_estado_recepcao_medida(),
     .db_estado_transmissao_medida(s_db_estado_transmissao_medida),
     .db_nivel_temperatura(s_db_nivel_temperatura),
     .db_temperatura(s_db_temperatura),
@@ -117,7 +118,7 @@ module tusca #(
   );
 
   hexa7seg H1 (
-    .hexa({1'b0, s_db_estado_config_manager}),
+    .hexa(s_db_estado_config_manager),
     .display(db_estado_config_manager)
   );
 
@@ -158,6 +159,13 @@ module tusca #(
     .reset(reset),
     .sinal(definir_config),
     .pulso(s_definir_config)
+  );
+
+  edge_detector ed_cancelar_config (
+    .clock(clock),
+    .reset(reset),
+    .sinal(cancelar_definir_config),
+    .pulso(s_cancelar_definir_config)
   );
 
   assign s_hex5 = (db_sel == 3'b000) ? s_db_temperatura[3:0] : 

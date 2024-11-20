@@ -2,7 +2,7 @@ module tusca_tb;
 
   localparam CLOCK_PERIOD = 20; // f = 50MHz
 
-  reg clock, reset, start, definir_config, gira, rx_serial_medida, rx_serial_config;
+  reg clock, reset, start, definir_config, gira, rx_serial_config, cancelar_definir_config;
   wire erro_config, rele, pwm_ventoinha, pwm_servo;
   wire dht_bus;
   reg dht_value, dht_dir;
@@ -40,7 +40,6 @@ module tusca_tb;
   task envia_serial;
     input[7:0] msg;
     input wrong_parity;
-    input canal; // 0 = config, 1 = medida
     input[31:0] baud;
     integer i;
     reg[31:0] CLK_P_BIT;
@@ -51,16 +50,10 @@ module tusca_tb;
       for (i = 0; i < 10; i = i + 1) begin
         @(negedge clock);
         // envia bit
-        if (canal == 1) begin
-          rx_serial_medida = msg_final[i];
-        end
-        else begin
-          rx_serial_config = msg_final[i];
-        end
+        rx_serial_config = msg_final[i];
         // espera uart receber
         #(CLK_P_BIT * CLOCK_PERIOD);
       end
-      rx_serial_medida = 1'b1;
       rx_serial_config = 1'b1;
       #(1*CLK_P_BIT * CLOCK_PERIOD);
     end
@@ -68,11 +61,10 @@ module tusca_tb;
 
   task envia_16b;
   input [15:0] msg;
-  input canal;
   input wrong_parity;
   begin
-    envia_serial(msg[7:0], wrong_parity, canal, canal ? 9600 : 115200);
-    envia_serial(msg[15:8], wrong_parity, canal, canal ? 9600 : 115200);
+    envia_serial(msg[7:0], wrong_parity, 115200);
+    envia_serial(msg[15:8], wrong_parity, 115200);
   end
   endtask
 
@@ -86,6 +78,7 @@ module tusca_tb;
     .reset(reset),
     .start(start),
     .definir_config(definir_config),
+    .cancelar_definir_config(cancelar_definir_config),
     .gira(gira),
     .rx_serial_config(rx_serial_config),
     .dht_bus(dht_bus),
@@ -110,8 +103,8 @@ module tusca_tb;
   initial begin
     clock = 0;
     rx_serial_config = 1;
-    rx_serial_medida = 1;
     definir_config = 0;
+    cancelar_definir_config = 0;
     gira = 0;
     
     reset = 1;
@@ -126,18 +119,19 @@ module tusca_tb;
     #700000 definir_config = 1'b1;
     #40;
     definir_config = 1'b0;
-    envia_16b(16'h1000, 0, 0);
-    envia_16b(16'h2001, 0, 0);
-    envia_16b(16'h3002, 0, 0);
-    envia_16b(16'h4003, 0, 0);
-    envia_16b(16'h5004, 0, 0);
-    envia_16b(16'h6003, 0, 0);
-    envia_16b(16'h7008, 0, 0);
-    envia_16b(16'h1111, 0, 0);
+    envia_16b(16'h1000, 0);
+    envia_16b(16'h2001, 0);
+    envia_16b(16'h3002, 0);
+    envia_16b(16'h4003, 0);
+    envia_16b(16'h5004, 0);
+    envia_16b(16'h6003, 0);
+    envia_16b(16'h7008, 0);
+    envia_16b(16'h1111, 0);
 
     medir_dht11(40'h2345aab2ab);
     #5000000;
     medir_dht11(40'h2345aab2c4);
+    #400000;
     $stop;
   end
 

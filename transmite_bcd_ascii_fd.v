@@ -20,7 +20,15 @@ module transmite_bcd_ascii_fd(
     .partida(inicio_transmissao_bcd),
     .dados_ascii(s_valor_ascii),
     .saida_serial(tx_serial),
-    .pronto(pronto_transmissao_bcd)
+    .pronto(pronto_transmissao_bcd),
+    .db_clock(),
+    .db_tick(),
+    .db_partida(),
+    .db_saida_serial(),
+    .db_conta(),
+    .db_desloca(),
+    .db_estado(),
+    .db_contagem()
   );
 
 endmodule

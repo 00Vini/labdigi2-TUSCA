@@ -10,6 +10,7 @@ module tusca_uc (
   output transmite_medida,
 
   input definir_config,
+  input cancelar_definir_config,
   input fim_delay,
   input pronto_medida,
   input erro_medida,
@@ -51,7 +52,7 @@ module tusca_uc (
       RESETA_DELAY: Eprox = ESPERA_DELAY;
       ESPERA_DELAY: Eprox = fim_delay ? MEDE : (definir_config ? PEDIR_CONFIG : ESPERA_DELAY);
       PEDIR_CONFIG: Eprox = ESPERA_CONFIG;
-      ESPERA_CONFIG: Eprox = pronto_config ? RESETA_DELAY : ESPERA_CONFIG;
+      ESPERA_CONFIG: Eprox = (pronto_config | cancelar_definir_config) ? RESETA_DELAY : ESPERA_CONFIG;
       default: Eprox = INICIAL;
     endcase
   end
