@@ -55,8 +55,9 @@ add wave -noupdate /tusca_tb/UUT/fd/interface_dht11/medir_dht11_fd/dht11_module/
 add wave -noupdate /tusca_tb/UUT/fd/interface_dht11/medir_dht11_fd/dht11_module/reset
 add wave -noupdate /tusca_tb/UUT/fd/interface_dht11/medir_dht11_fd/dht11_module/pronto
 add wave -noupdate /tusca_tb/UUT/fd/interface_dht11/medir_dht11_fd/dht11_module/error
+add wave -noupdate /tusca_tb/UUT/db_erro_medida
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 4} {24492010 ns} 0} {{Cursor 3} {104254624 ns} 0}
+WaveRestoreCursors {{Cursor 4} {64094530 ns} 0} {{Cursor 3} {104254624 ns} 0}
 quietly wave cursor active 1
 configure wave -namecolwidth 497
 configure wave -valuecolwidth 100
@@ -72,4 +73,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ns
 update
-WaveRestoreZoom {8549193 ns} {81994117 ns}
+WaveRestoreZoom {63908903 ns} {64261722 ns}

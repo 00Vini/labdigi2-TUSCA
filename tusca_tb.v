@@ -87,7 +87,6 @@ module tusca_tb;
     .start(start),
     .definir_config(definir_config),
     .gira(gira),
-    .rx_serial_medida(rx_serial_medida),
     .rx_serial_config(rx_serial_config),
     .dht_bus(dht_bus),
     .erro_config(erro_config),
@@ -105,7 +104,7 @@ module tusca_tb;
     .db_pwm_ventoinha(),
     .db_pwm_servo(),
     .db_rx_serial_config(),
-    .db_rx_serial_medida()
+    .db_erro_medida()
   );
 
   initial begin

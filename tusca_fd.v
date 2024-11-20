@@ -13,7 +13,6 @@ module tusca_fd #(
   input receber_config,
 
   input transmite_medida,
-  input rx_serial_medida,
   input rx_serial_config,
 
   inout dht_bus,
@@ -39,7 +38,8 @@ module tusca_fd #(
   output[15:0] db_lim_temp2,
   output[15:0] db_lim_temp3,
   output[15:0] db_lim_temp4,
-  output[15:0] db_lim_umidade
+  output[15:0] db_lim_umidade,
+  output db_erro_medida
 );
 
   wire [15:0] s_temp, s_umidade;
@@ -68,7 +68,8 @@ module tusca_fd #(
     .erro(erro_medida),
     .temperatura(s_temp),
     .umidade(s_umidade),
-    .db_estado(db_estado_interface_dht11)
+    .db_estado(db_estado_interface_dht11),
+    .db_erro_medida(db_erro_medida)
   );
 
   config_manager cnf (

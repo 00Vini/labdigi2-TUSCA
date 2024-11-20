@@ -9,11 +9,13 @@ module medir_dht11 #(
   output [15:0] umidade,
   output pronto,
   output erro,
-  output[2:0] db_estado
+  output[2:0] db_estado,
+  output db_erro_medida
 );
   wire s_start_medida, s_reset_medida, s_pronto_medida, s_erro_medida, s_registra_medida;
   wire s_zera_tentativas, s_zera_timeout, s_conta_tentativas, s_conta_timeout, s_fim_tentativas, s_timeout;
 
+  assign db_erro_medida = s_erro_medida;
 
   medir_dht11_fd #(
     .TIMEOUT(TIMEOUT)
