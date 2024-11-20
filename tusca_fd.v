@@ -1,6 +1,7 @@
 module tusca_fd #(
   parameter PERIODO_CONTA = 2000,
-  parameter PERIODO_DELAY = 100_000_000 // 2s
+  parameter PERIODO_DELAY = 100_000_000, // 2s,
+  parameter TIMEOUT = 50_000_000 // 1s
 ) (
   input clock,
   input reset,
@@ -26,7 +27,7 @@ module tusca_fd #(
   output pwm_servo,
   output pronto_transmite_medida,
   output tx_serial,
-  output[3:0] db_estado_interface_dht11,
+  output[2:0] db_estado_interface_dht11,
   output[2:0] db_estado_config_manager,
   output[2:0] db_estado_recepcao_config,
   output[2:0] db_estado_recepcao_medida,
@@ -56,13 +57,15 @@ module tusca_fd #(
   assign db_lim_temp4 = s_lim_temp4;
   assign db_lim_umidade = s_lim_umidade;
 
-  dht11 interface_dht11 (
+  medir_dht11 #(
+    .TIMEOUT(TIMEOUT)
+  ) interface_dht11 (
+    .dht_bus(dht_bus),
     .clock(clock),
     .reset(reset),
-    .dht_bus(dht_bus),
-    .start(medir_dht11),
+    .medir(medir_dht11),
     .pronto(pronto_medida),
-    .error(erro_medida),
+    .erro(erro_medida),
     .temperatura(s_temp),
     .umidade(s_umidade),
     .db_estado(db_estado_interface_dht11)

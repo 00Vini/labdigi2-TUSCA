@@ -5,7 +5,8 @@
 
 module tusca #(
   parameter PERIODO_CONTA = 2000,
-  parameter PERIODO_DELAY = 100_000_000 // 2s
+  parameter PERIODO_DELAY = 100_000_000, // 2s
+  TIMEOUT = 50_000_000 // 1s
 ) (
   input clock,
   input reset,
@@ -41,8 +42,7 @@ module tusca #(
 
   wire s_medir_dht11, s_conta_delay, s_zera_delay, s_receber_config, s_fim_delay, s_pronto_medida, s_pronto_config, s_start, s_definir_config, s_erro_medida, s_transmite_medida, s_pronto_transmissao_medida;
 
-  wire [2:0] s_db_estado_config_manager, s_db_estado_recepcao_config, s_db_estado_transmissao_medida;
-  wire [3:0] s_db_estado_interface_dht11;
+  wire [2:0] s_db_estado_interface_dht11, s_db_estado_config_manager, s_db_estado_recepcao_config, s_db_estado_transmissao_medida;
   wire [3:0] s_hex5, s_db_estado;
   wire [15:0] s_db_temperatura, s_db_umidade, s_db_lim_temp1, s_db_lim_temp2, s_db_lim_temp3, s_db_lim_temp4, s_db_lim_umidade;
 
@@ -66,7 +66,8 @@ module tusca #(
 
   tusca_fd #(
     .PERIODO_CONTA(PERIODO_CONTA),
-    .PERIODO_DELAY(PERIODO_DELAY)
+    .PERIODO_DELAY(PERIODO_DELAY),
+    .TIMEOUT(TIMEOUT)
   ) fd (
     .clock(clock),
     .reset(reset),
@@ -122,7 +123,7 @@ module tusca #(
   );
 
   hexa7seg H2 (
-    .hexa(s_db_estado_interface_dht11),
+    .hexa({1'b1, s_db_estado_interface_dht11}),
     .display(db_estado_interface_dht11)
   );
 
