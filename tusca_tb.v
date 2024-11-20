@@ -131,7 +131,7 @@ module tusca_tb;
     medir_dht11(40'h2345aab2ab);
     #5000000;
     medir_dht11(40'h2345aab2c4);
-    #400000;
+    #800000;
     $stop;
   end
 
