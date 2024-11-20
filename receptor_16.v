@@ -9,7 +9,8 @@ module receptor_16 #(
   input rx_serial,
   output[15:0] data_out,
   output erro,
-  output pronto
+  output pronto,
+  output[2:0] db_estado
 );
 
   wire s_parity_ok, s_zera_contador, s_load_data_high, s_load_data_low, s_fim_receber;
@@ -38,7 +39,8 @@ module receptor_16 #(
     .load_data_high(s_load_data_high),
     .load_data_low(s_load_data_low),
     .erro(erro),
-    .pronto(pronto)
+    .pronto(pronto),
+    .db_estado(db_estado)
   );
 
 endmodule

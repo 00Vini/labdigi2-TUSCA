@@ -37,9 +37,10 @@ module tusca_tb;
   task envia_16b;
   input [15:0] msg;
   input canal;
+  input wrong_parity;
   begin
-    envia_serial(msg[7:0], 0, canal, canal ? 9600 : 115200);
-    envia_serial(msg[15:8], 0, canal, canal ? 9600 : 115200);
+    envia_serial(msg[7:0], wrong_parity, canal, canal ? 9600 : 115200);
+    envia_serial(msg[15:8], wrong_parity, canal, canal ? 9600 : 115200);
   end
   endtask
 
@@ -65,7 +66,7 @@ module tusca_tb;
     .db_estado_interface_dht11(),
     .db_estado_config_manager(),
     .db_estado_recepcao_config(),
-    .db_estado_recepcao_medida(),
+    .db_estado_transmissao_medida(),
     .db_mux(),
     .db_nivel_temperatura(),
     .db_pwm_ventoinha(),
@@ -89,17 +90,20 @@ module tusca_tb;
     #20;
     start = 0;
     #30000;
-    envia_16b(16'h2202, 1); // Temperatura
-    envia_16b(16'h1234, 1); // Umidade
+    envia_16b(16'h2202, 1, 0); // Temperatura
+    envia_16b(16'h1234, 1, 0); // Umidade
 
-    definir_config = 1'b1;
+    #800000 definir_config = 1'b1;
     #40;
     definir_config = 1'b0;
-    envia_16b(16'h1000, 0);
-    envia_16b(16'h2001, 0);
-    envia_16b(16'h3002, 0);
-    envia_16b(16'h4003, 0);
-    envia_16b(16'h1111, 0);
+    envia_16b(16'h1000, 0, 0);
+    envia_16b(16'h2001, 0, 0);
+    envia_16b(16'h3002, 0, 0);
+    envia_16b(16'h4003, 0, 0);
+    envia_16b(16'h5004, 0, 0);
+    envia_16b(16'h6003, 0, 0);
+    envia_16b(16'h7008, 0, 0);
+    envia_16b(16'h1111, 0, 0);
 
     
     #200000;

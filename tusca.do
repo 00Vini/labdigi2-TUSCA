@@ -18,15 +18,24 @@ add wave -noupdate /tusca_tb/UUT/fd/interface_dht11/interface_dht11_uc/Eatual
 add wave -noupdate /tusca_tb/UUT/fd/cnf/config_manager_uc/Eatual
 add wave -noupdate /tusca_tb/UUT/fd/s_umidade
 add wave -noupdate /tusca_tb/UUT/fd/s_temp
+add wave -noupdate /tusca_tb/UUT/fd/transmissao/FD/transmite_bcd/U2_FD/s_valor_ascii
+add wave -noupdate /tusca_tb/UUT/tx_serial
 add wave -noupdate /tusca_tb/UUT/fd/s_nivel_temperatura
 add wave -noupdate /tusca_tb/UUT/fd/db_nivel_temperatura
 add wave -noupdate /tusca_tb/UUT/fd/cnf/umidade_lim_out
-add wave -noupdate /tusca_tb/UUT/fd/cnf/temp_lim4_out
-add wave -noupdate /tusca_tb/UUT/fd/cnf/temp_lim3_out
 add wave -noupdate /tusca_tb/UUT/fd/cnf/temp_lim1_out
 add wave -noupdate /tusca_tb/UUT/fd/cnf/temp_lim2_out
+add wave -noupdate /tusca_tb/UUT/fd/cnf/temp_lim3_out
+add wave -noupdate /tusca_tb/UUT/fd/cnf/temp_lim4_out
+add wave -noupdate /tusca_tb/UUT/fd/cnf/temp_lim5_out
+add wave -noupdate /tusca_tb/UUT/fd/cnf/temp_lim6_out
+add wave -noupdate /tusca_tb/UUT/fd/cnf/temp_lim7_out
 add wave -noupdate /tusca_tb/UUT/fd/interface_dht11/pronto_medida
 add wave -noupdate /tusca_tb/UUT/fd/interface_dht11/interface_dht11_uc/Eatual
+add wave -noupdate /tusca_tb/UUT/fd/interface_dht11/interface_dht11_fd/receptor_medida/receptor_16_uc/parity_ok
+add wave -noupdate /tusca_tb/UUT/fd/interface_dht11/interface_dht11_uc/medida_ok
+add wave -noupdate /tusca_tb/UUT/fd/interface_dht11/interface_dht11_fd/fim_tentativas
+add wave -noupdate /tusca_tb/UUT/fd/interface_dht11/interface_dht11_fd/receptor_medida/receptor_16_uc/Eatual
 add wave -noupdate /tusca_tb/UUT/fd/interface_dht11/interface_dht11_fd/receptor_medida/receptor_16_fd/recep_serial/UC/current_state
 add wave -noupdate /tusca_tb/UUT/fd/cnf/config_manager_fd/load_temp4
 add wave -noupdate /tusca_tb/UUT/fd/cnf/config_manager_fd/load_temp3
@@ -36,33 +45,20 @@ add wave -noupdate /tusca_tb/UUT/fd/cnf/config_manager_fd/load_lim_um
 add wave -noupdate /tusca_tb/UUT/fd/cnf/config_manager_uc/Eatual
 add wave -noupdate /tusca_tb/UUT/fd/comp_temps/temp
 add wave -noupdate /tusca_tb/UUT/fd/comp_temps/nivel
-add wave -noupdate /tusca_tb/UUT/fd/s_lim_umidade
-add wave -noupdate /tusca_tb/UUT/fd/comp_temps/lim_temp4
-add wave -noupdate /tusca_tb/UUT/fd/comp_temps/lim_temp3
-add wave -noupdate /tusca_tb/UUT/fd/comp_temps/lim_temp2
 add wave -noupdate /tusca_tb/UUT/fd/comp_temps/lim_temp1
+add wave -noupdate /tusca_tb/UUT/fd/comp_temps/lim_temp2
+add wave -noupdate /tusca_tb/UUT/fd/comp_temps/lim_temp3
+add wave -noupdate /tusca_tb/UUT/fd/comp_temps/lim_temp4
+add wave -noupdate /tusca_tb/UUT/fd/comp_temps/lim_temp5
+add wave -noupdate /tusca_tb/UUT/fd/comp_temps/lim_temp6
+add wave -noupdate /tusca_tb/UUT/fd/comp_temps/lim_temp7
+add wave -noupdate /tusca_tb/UUT/fd/s_lim_umidade
 add wave -noupdate /tusca_tb/UUT/fd/comp_temps/temp
 add wave -noupdate /tusca_tb/UUT/fd/comp_temps/nivel
-add wave -noupdate /tusca_tb/UUT/fd/comp_temps/lt4
-add wave -noupdate /tusca_tb/UUT/fd/comp_temps/lt3
-add wave -noupdate /tusca_tb/UUT/fd/comp_temps/lt2
-add wave -noupdate /tusca_tb/UUT/fd/comp_temps/lt1
-add wave -noupdate /tusca_tb/UUT/fd/comp_temps/lim_temp4
-add wave -noupdate /tusca_tb/UUT/fd/comp_temps/lim_temp3
-add wave -noupdate /tusca_tb/UUT/fd/comp_temps/lim_temp2
-add wave -noupdate /tusca_tb/UUT/fd/comp_temps/lim_temp1
-add wave -noupdate /tusca_tb/UUT/fd/comp_temps/gt4
-add wave -noupdate /tusca_tb/UUT/fd/comp_temps/gt3
-add wave -noupdate /tusca_tb/UUT/fd/comp_temps/gt2
-add wave -noupdate /tusca_tb/UUT/fd/comp_temps/gt1
-add wave -noupdate /tusca_tb/UUT/fd/comp_temps/eq4
-add wave -noupdate /tusca_tb/UUT/fd/comp_temps/eq3
-add wave -noupdate /tusca_tb/UUT/fd/comp_temps/eq2
-add wave -noupdate /tusca_tb/UUT/fd/comp_temps/eq1
 TreeUpdate [SetDefaultTree]
-WaveRestoreCursors {{Cursor 4} {5764119 ns} 0} {{Cursor 3} {5753958 ns} 0}
-quietly wave cursor active 1
-configure wave -namecolwidth 301
+WaveRestoreCursors {{Cursor 4} {7054325 ns} 0} {{Cursor 3} {7104244 ns} 0}
+quietly wave cursor active 2
+configure wave -namecolwidth 688
 configure wave -valuecolwidth 100
 configure wave -justifyvalue left
 configure wave -signalnamewidth 0
@@ -76,4 +72,4 @@ configure wave -griddelta 40
 configure wave -timeline 0
 configure wave -timelineunits ns
 update
-WaveRestoreZoom {1070114 ns} {6015194 ns}
+WaveRestoreZoom {2484276 ns} {7537617 ns}

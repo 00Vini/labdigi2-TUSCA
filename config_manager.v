@@ -7,6 +7,9 @@ module config_manager(
   output [15:0] temp_lim2_out,
   output [15:0] temp_lim3_out,
   output [15:0] temp_lim4_out,
+  output [15:0] temp_lim5_out,
+  output [15:0] temp_lim6_out,
+  output [15:0] temp_lim7_out,
   output [15:0] umidade_lim_out,
   output erro_config,
   output pronto_config,
@@ -14,7 +17,7 @@ module config_manager(
   output [2:0] db_estado_recepcao_config
 );
 
-  wire s_load_lim_um, s_load_temp1, s_load_temp2, s_load_temp3, s_load_temp4;
+  wire s_load_lim_um, s_load_temp1, s_load_temp2, s_load_temp3, s_load_temp4, s_load_temp5, s_load_temp6, s_load_temp7;
   wire s_fim_recepcao_config, s_parity_config_ok;
 
   config_manager_fd config_manager_fd (
@@ -26,10 +29,16 @@ module config_manager(
     .load_temp2(s_load_temp2),
     .load_temp3(s_load_temp3),
     .load_temp4(s_load_temp4),
+    .load_temp5(s_load_temp5),
+    .load_temp6(s_load_temp6),
+    .load_temp7(s_load_temp7),
     .temp_lim1_out(temp_lim1_out),
     .temp_lim2_out(temp_lim2_out),
     .temp_lim3_out(temp_lim3_out),
     .temp_lim4_out(temp_lim4_out),
+    .temp_lim5_out(temp_lim5_out),
+    .temp_lim6_out(temp_lim6_out),
+    .temp_lim7_out(temp_lim7_out),
     .umidade_lim_out(umidade_lim_out),
     .fim_recepcao_config(s_fim_recepcao_config),
     .parity_config_ok(s_parity_config_ok),
@@ -45,6 +54,9 @@ module config_manager(
     .load_temp2(s_load_temp2),
     .load_temp3(s_load_temp3),
     .load_temp4(s_load_temp4),
+    .load_temp5(s_load_temp5),
+    .load_temp6(s_load_temp6),
+    .load_temp7(s_load_temp7),
     .pronto_config(pronto_config),
     .erro_config(erro_config),
     .fim_recepcao_config(s_fim_recepcao_config),
