@@ -1,8 +1,3 @@
-// TODO
-// - Adicionar timeout na medida do sensor e reseta-lo
-// - Adicionar checksum no sensor
-// - Adicionar entradas e saidas: display 7seg para o nivel, botao para definir config e para cancelar o definir config
-
 module tusca #(
   parameter PERIODO_CONTA = 2000,
   parameter PERIODO_DELAY = 100_000_000, // 2s
@@ -11,8 +6,6 @@ module tusca #(
   input clock,
   input reset,
   input start,
-  input definir_config,
-  input cancelar_definir_config,
   input gira,
   input rx_serial_config,
 
@@ -23,7 +16,6 @@ module tusca #(
   output pwm_ventoinha,
   output pwm_servo,
   output tx_serial,
-  output esperando_config,
 
   input[2:0] db_sel,
   output [6:0] db_estado,
@@ -41,12 +33,17 @@ module tusca #(
   output db_erro_medida
 );
 
-  wire s_medir_dht11, s_conta_delay, s_zera_delay, s_receber_config, s_fim_delay, s_pronto_medida, s_pronto_config, s_start, s_definir_config, s_cancelar_definir_config, s_erro_medida, s_transmite_medida, s_pronto_transmissao_medida;
+  wire s_medir_dht11, s_conta_delay, s_zera_delay, s_receber_config, s_fim_delay, 
+       s_pronto_medida, s_pronto_config, s_start, s_definir_config, s_erro_medida, 
+       s_transmite_medida, s_pronto_transmissao_medida;
 
   wire [2:0] s_db_estado_interface_dht11, s_db_estado_recepcao_config, s_db_estado_transmissao_medida;
   wire [2:0] s_db_nivel_temperatura;
   wire [3:0] s_hex5, s_db_estado, s_db_estado_config_manager;
   wire [15:0] s_db_temperatura, s_db_umidade, s_db_lim_temp1, s_db_lim_temp2, s_db_lim_temp3, s_db_lim_temp4, s_db_lim_umidade;
+
+  assign s_definir_config = ~rx_serial_config;
+  assign s_receber_config = ~rx_serial_config;
 
   tusca_uc uc (
     .clock(clock),
@@ -55,9 +52,6 @@ module tusca #(
     .medir_dht11(s_medir_dht11),
     .conta_delay(s_conta_delay),
     .zera_delay(s_zera_delay),
-    .receber_config(s_receber_config),
-    .esperando_config(esperando_config),
-    .cancelar_definir_config(s_cancelar_definir_config),
     .definir_config(s_definir_config),
     .transmite_medida(s_transmite_medida),
     .fim_delay(s_fim_delay),
@@ -154,20 +148,6 @@ module tusca #(
     .reset(reset),
     .sinal(start),
     .pulso(s_start)
-  );
-
-  edge_detector ed_config (
-    .clock(clock),
-    .reset(reset),
-    .sinal(definir_config),
-    .pulso(s_definir_config)
-  );
-
-  edge_detector ed_cancelar_config (
-    .clock(clock),
-    .reset(reset),
-    .sinal(cancelar_definir_config),
-    .pulso(s_cancelar_definir_config)
   );
 
   assign s_hex5 = (db_sel == 3'b000) ? s_db_temperatura[3:0] : 

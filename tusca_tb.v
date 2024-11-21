@@ -2,7 +2,7 @@ module tusca_tb;
 
   localparam CLOCK_PERIOD = 20; // f = 50MHz
 
-  reg clock, reset, start, definir_config, gira, rx_serial_config, cancelar_definir_config;
+  reg clock, reset, start, gira, rx_serial_config;
   wire erro_config, rele, pwm_ventoinha, pwm_servo;
   wire dht_bus;
   reg dht_value, dht_dir;
@@ -77,8 +77,6 @@ module tusca_tb;
     .clock(clock),
     .reset(reset),
     .start(start),
-    .definir_config(definir_config),
-    .cancelar_definir_config(cancelar_definir_config),
     .gira(gira),
     .rx_serial_config(rx_serial_config),
     .dht_bus(dht_bus),
@@ -103,8 +101,6 @@ module tusca_tb;
   initial begin
     clock = 0;
     rx_serial_config = 1;
-    definir_config = 0;
-    cancelar_definir_config = 0;
     gira = 0;
     
     reset = 1;
@@ -116,9 +112,7 @@ module tusca_tb;
     start = 0;
     medir_dht11(40'h123422026a);
 
-    #700000 definir_config = 1'b1;
-    #40;
-    definir_config = 1'b0;
+    #700000;
     envia_16b(16'h1000, 0);
     envia_16b(16'h2001, 0);
     envia_16b(16'h3002, 0);

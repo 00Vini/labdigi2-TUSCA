@@ -6,12 +6,9 @@ module tusca_uc (
   output medir_dht11,
   output conta_delay,
   output zera_delay,
-  output receber_config,
   output transmite_medida,
-  output esperando_config,
 
   input definir_config,
-  input cancelar_definir_config,
   input fim_delay,
   input pronto_medida,
   input erro_medida,
@@ -53,17 +50,14 @@ module tusca_uc (
       RESETA_DELAY: Eprox = ESPERA_DELAY;
       ESPERA_DELAY: Eprox = fim_delay ? MEDE : (definir_config ? PEDIR_CONFIG : ESPERA_DELAY);
       PEDIR_CONFIG: Eprox = ESPERA_CONFIG;
-      ESPERA_CONFIG: Eprox = (pronto_config | cancelar_definir_config) ? RESETA_DELAY : ESPERA_CONFIG;
+      ESPERA_CONFIG: Eprox = pronto_config ? RESETA_DELAY : ESPERA_CONFIG;
       default: Eprox = INICIAL;
     endcase
   end
-
-  assign receber_config = (Eatual == PEDIR_CONFIG);
 
   assign conta_delay = (Eatual == ESPERA_DELAY);
   assign zera_delay = (Eatual == RESETA_DELAY);
   assign medir_dht11 = (Eatual == MEDE);
   assign transmite_medida = (Eatual == TRANSMITE_MEDIDA);
-  assign esperando_config = (Eatual == ESPERA_CONFIG);
 
 endmodule
