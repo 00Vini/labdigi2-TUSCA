@@ -5,7 +5,7 @@ import threading
 import string
 
 # Configurações da porta serial para envio
-ser_envio  = serial.Serial(
+ser  = serial.Serial(
     port='COM19',        # Substitua pelo nome da sua porta
     baudrate=115200,      
     parity=serial.PARITY_ODD,  # Paridade
@@ -14,15 +14,6 @@ ser_envio  = serial.Serial(
     timeout=1           # Tempo limite de leitura
 )
 
-# Configuração da porta para recebimento
-ser_recebimento = serial.Serial(
-    port='COM5',        # Substitua pela porta correta (ex.: /dev/ttyUSB1 no Linux)
-    baudrate=115200,      # Velocidade de comunicação
-    parity=serial.PARITY_ODD,
-    stopbits=serial.STOPBITS_ONE,
-    bytesize=serial.SEVENBITS,
-    timeout=None
-)
 
 # Variável de controle para o loop de recebimento
 receiving = True   # Sempre ativo enquanto o programa estiver rodando
@@ -32,31 +23,33 @@ def receber_dados_continuamente():
     while receiving:
         try:
             # Lê 8 bytes de uma vez
-            data = ser_recebimento.read(8)
-            if len(data) == 8:
-                # Atualiza as labels com os dados combinados
-                byte1 = data[0]
-                byte2 = data[1]
-                byte3 = data[2]
-                byte4 = data[3]
-                byte5 = data[4]
-                byte6 = data[5]
-                byte7 = data[6]
-                byte8 = data[7]
+            if ser.in_waiting > 0:
+                data = ser.read(8)
+                if len(data) == 8:
+                    # Atualiza as labels com os dados combinados
+                    byte1 = data[0]
+                    byte2 = data[1]
+                    byte3 = data[2]
+                    byte4 = data[3]
+                    byte5 = data[4]
+                    byte6 = data[5]
+                    byte7 = data[6]
+                    byte8 = data[7]
 
-                # Converte os bytes para ASCII ou usa ponto (.) se não for exibível
-                char1 = chr(byte1) if chr(byte1) in string.printable else '.'
-                char2 = chr(byte2) if chr(byte2) in string.printable else '.'
-                char3 = chr(byte3) if chr(byte3) in string.printable else '.'
-                char4 = chr(byte4) if chr(byte4) in string.printable else '.'
-                char5 = chr(byte5) if chr(byte5) in string.printable else '.'
-                char6 = chr(byte6) if chr(byte6) in string.printable else '.'
-                char7 = chr(byte7) if chr(byte7) in string.printable else '.'
-                char8 = chr(byte8) if chr(byte8) in string.printable else '.'
+                    # Converte os bytes para ASCII ou usa ponto (.) se não for exibível
+                    char1 = chr(byte1) if chr(byte1) in string.printable else '.'
+                    char2 = chr(byte2) if chr(byte2) in string.printable else '.'
+                    char3 = chr(byte3) if chr(byte3) in string.printable else '.'
+                    char4 = chr(byte4) if chr(byte4) in string.printable else '.'
+                    char5 = chr(byte5) if chr(byte5) in string.printable else '.'
+                    char6 = chr(byte6) if chr(byte6) in string.printable else '.'
+                    char7 = chr(byte7) if chr(byte7) in string.printable else '.'
+                    char8 = chr(byte8) if chr(byte8) in string.printable else '.'
 
-                # Atualiza as caixas com os dados recebidos
-                label_bytes1_2.config(text=f"{char1}{char2}.{char3}{char4} ºC")
-                label_bytes5_6.config(text=f"{char5}{char6}.{char7}{char8}%")
+                    # Atualiza as caixas com os dados recebidos
+                    label_bytes1_2.config(text=f"{char1}{char2}.{char3}{char4}ºC")
+                    label_bytes5_6.config(text=f"{char5}{char6}.{char7}{char8}%")
+            time.sleep(0.1)
         except Exception as e:
             messagebox.showerror("Erro", f"Erro ao receber dados: {e}")
             break
@@ -98,7 +91,7 @@ def enviar_dados():
 
 
         # Enviar todos os dados
-        ser_envio.write(bytes(data)) 
+        ser.write(bytes(data)) 
         messagebox.showinfo("Sucesso", f"Dados enviados: {data}")
     except ValueError as ve:
         messagebox.showerror("Erro", f"Valor inválido ({i+1}): {ve}")
@@ -110,8 +103,7 @@ def encerrar_programa():
     """Fecha as portas seriais e encerra o programa."""
     global receiving
     receiving = False
-    ser_envio.close()
-    ser_recebimento.close()
+    ser.close()
     root.destroy()
 
 
