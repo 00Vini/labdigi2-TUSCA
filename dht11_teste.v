@@ -13,20 +13,22 @@ module dht11_teste(
 
     wire [15:0] temperatura, umidade;
     wire s_start;
-    wire[3:0] s_db_estado;
+    wire[2:0] s_db_estado;
 
     assign error_osc = error;
 
-    dht11 dht11_inst(
+    medir_dht11 dht11(
         .dht_bus(dht_bus),
-        .start(s_start),
+        .medir(s_start),
         .clock(clk),
         .reset(reset),
         .temperatura(temperatura),
         .umidade(umidade),
         .pronto(pronto),
-        .error(error),
-        .db_estado(s_db_estado)
+        .erro(error),
+        .db_estado(s_db_estado),
+        .db_erro_medida(),
+        .db_erro_medir()
     );
 
     hexa7seg hexa7seg0(
@@ -40,7 +42,7 @@ module dht11_teste(
     );
 
     hexa7seg hexa7seg2(
-        .hexa(db_estado),
+        .hexa({1'b0, s_db_estado}),
         .display(hex2)
     );
 

@@ -33,17 +33,25 @@ module medir_dht11_fd #(
     .db_estado()
   );
 
-  registrador_n #(
-    .N(16)
-  ) reg_temperatura (
-    .clock(clock),
-    .clear(reset),
+  // registrador_n #(
+  //   .N(16)
+  // ) reg_temperatura (
+  //   .clock(clock),
+  //   .clear(reset),
+  //   .enable(registra_medida),
+  //   .D(s_temperatura),
+  //   .Q(temperatura)
+  // );
+
+  reg_medida reg_temperatura (
+    .clk(clock),
     .enable(registra_medida),
-    .D(s_temperatura),
-    .Q(temperatura)
+    .reset(reset),
+    .Din(s_temperatura),
+    .Dout(temperatura)
   );
 
-  registrador_n #(
+/*   registrador_n #(
     .N(16)
   ) reg_umidade (
     .clock(clock),
@@ -51,6 +59,14 @@ module medir_dht11_fd #(
     .enable(registra_medida),
     .D(s_umidade),
     .Q(umidade)
+  ); */
+
+  reg_medida reg_umidade (
+    .clk(clock),
+    .enable(registra_medida),
+    .reset(reset),
+    .Din(s_umidade),
+    .Dout(umidade)
   );
 
   contador_m #(

@@ -1,6 +1,6 @@
 module tusca #(
   parameter PERIODO_CONTA = 2000,
-  parameter PERIODO_DELAY = 100_000_000, // 2s
+  parameter PERIODO_DELAY = 50_000_000, // 2s
   TIMEOUT = 50_000_000 // 1s
 ) (
   input clock,

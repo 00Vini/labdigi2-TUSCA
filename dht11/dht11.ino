@@ -57,6 +57,7 @@ void loop() {
 
         break;  // Exit loop after sending data
       }
+      delay(1000);
     }
   }
 

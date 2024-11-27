@@ -118,6 +118,13 @@ set_location_assignment PIN_J19 -to tx_serial
 set_location_assignment PIN_G17 -to db_tx_serial
 set_location_assignment PIN_M16 -to db_nivel_temperatura[2]
 set_location_assignment PIN_H16 -to dht_bus
+set_location_assignment PIN_C16 -to db_nivel_temperatura[3]
+set_location_assignment PIN_D17 -to db_nivel_temperatura[4]
+set_location_assignment PIN_K20 -to db_nivel_temperatura[5]
+set_location_assignment PIN_K21 -to db_nivel_temperatura[6]
+set_location_assignment PIN_N1 -to db_erro_medida
+set_location_assignment PIN_U2 -to db_erro_medir
+set_global_assignment -name VERILOG_FILE ../reg_temp.v
 set_global_assignment -name VERILOG_FILE ../tx_serial_uc.v
 set_global_assignment -name VERILOG_FILE ../tx_serial_8O1_fd.v
 set_global_assignment -name VERILOG_FILE ../tx_serial_8O1.v
@@ -189,10 +196,4 @@ set_global_assignment -name VERILOG_FILE ../circuito_pwm.v
 set_global_assignment -name VERILOG_FILE ../bin2bcd_teste.v
 set_global_assignment -name VERILOG_FILE ../bin2bcd_tb.v
 set_global_assignment -name VERILOG_FILE ../bin2bcd.v
-set_location_assignment PIN_C16 -to db_nivel_temperatura[3]
-set_location_assignment PIN_D17 -to db_nivel_temperatura[4]
-set_location_assignment PIN_K20 -to db_nivel_temperatura[5]
-set_location_assignment PIN_K21 -to db_nivel_temperatura[6]
-set_location_assignment PIN_N1 -to db_erro_medida
-set_location_assignment PIN_U2 -to db_erro_medir
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

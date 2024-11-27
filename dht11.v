@@ -38,8 +38,9 @@ module dht11 (
              SEND_SYNC_H = 2,
              RECEIVE_SYNC_L = 3,
              RECEIVE_SYNC_H = 4,
-             RECEIVE_PRE_BIT_L = 5,
-             RECEIVE_BIT = 6,
+             RECEIVE_LOW = 5,
+             RECEIVE_HIGH = 6,
+             RECEIVE_BIT = 13,
              INSPECT_BIT = 7,
              CHECK_END = 8,
              END_RECEIVE = 9,
@@ -51,7 +52,7 @@ module dht11 (
   reg [3:0]            state;
   reg [39:0]           dht_data;
   reg [$clog2(39)-1:0]   bit_counter;
-  reg [$clog2(900000)-1:0] time_counter;
+  reg [$clog2(900000)-1:0] time_counter, low_counter, high_counter;
   reg                  dir, dht_out;
 
   assign db_estado = state;
@@ -68,7 +69,7 @@ module dht11 (
       dir = READ;
     end
 
-    if (state == SEND_SYNC_H || state == RECEIVE_SYNC_H) begin
+    if (state == SEND_SYNC_H) begin
       dht_out = 1;
     end
     else begin
@@ -79,6 +80,8 @@ module dht11 (
   always @(posedge clock or posedge reset) begin
     if (reset) begin
       time_counter <= 0;
+      low_counter <= 0;
+      high_counter <= 0;
       bit_counter <= 39;
       temperatura <= 0;
       umidade <= 0;
@@ -93,6 +96,8 @@ module dht11 (
           if (start) begin
             state <= SEND_SYNC_L;
             time_counter <= 0;
+            low_counter <= 0;
+            high_counter <= 0;
             bit_counter <= 39;
             dht_data <= 0;
             error <= 0;
@@ -145,21 +150,36 @@ module dht11 (
           else begin
             time_counter <= 0;
              if (dht_in == 0) begin
-              state <= RECEIVE_PRE_BIT_L;
+              state <= RECEIVE_LOW;
             end
             else begin
               state <= ERRO;
             end
           end
         end
-        RECEIVE_PRE_BIT_L: begin
+        RECEIVE_LOW: begin
           if (dht_in == 0 && time_counter < TIME_TIMEOUT - 1) begin // Timeout
-            state <= RECEIVE_PRE_BIT_L;
-            time_counter <= time_counter + 1'b1;
+            state <= RECEIVE_LOW;
+            low_counter <= low_counter + 1'b1;
           end
           else begin
             time_counter <= 0;
             if (dht_in == 1) begin
+              state <= RECEIVE_HIGH;
+            end
+            else begin
+              state <= ERRO;
+            end
+          end
+        end
+        RECEIVE_HIGH: begin
+          if (dht_in == 1 && time_counter < TIME_TIMEOUT - 1) begin // Timeout
+            state <= RECEIVE_HIGH;
+            high_counter <= high_counter + 1'b1;
+          end
+          else begin
+            time_counter <= 0;
+            if (dht_in == 0) begin
               state <= RECEIVE_BIT;
             end
             else begin
@@ -168,30 +188,21 @@ module dht11 (
           end
         end
         RECEIVE_BIT: begin
-          if (time_counter < TIME_TIMEOUT - 1) begin // Condição de timeout
-            time_counter <= time_counter + 1'b1;
-            if (dht_in == 0) begin
-              state <= INSPECT_BIT;              
-            end
-            else begin
-              state <= RECEIVE_BIT;
-            end
-          end
-          else begin
-            state <= ERRO;
-          end
-        end
-        INSPECT_BIT: begin
-          bit_counter <= bit_counter - 1'b1;
-          if (time_counter < TIME_50us - 1) begin
+          if (low_counter > high_counter) begin
             // Received 0
             dht_data[bit_counter] <= 1'b0;
+            state <= INSPECT_BIT;
           end
           else begin
             // Received 1
             dht_data[bit_counter] <= 1'b1;
+            state <= INSPECT_BIT;
           end
-
+        end
+        INSPECT_BIT: begin
+          high_counter <= 0;
+          low_counter <= 0;
+          bit_counter <= bit_counter - 1'b1;
           state <= CHECK_END;
         end
         CHECK_END: begin
@@ -200,7 +211,7 @@ module dht11 (
             state <= END_RECEIVE;
           end
           else begin
-            state <= RECEIVE_PRE_BIT_L;
+            state <= RECEIVE_LOW;
           end
         end
         ERRO: begin

@@ -7,7 +7,7 @@ import string
 
 # Configurações da porta serial para envio
 ser  = serial.Serial(
-    port='COM27',        # Substitua pelo nome da sua porta
+    port='COM30',        # Substitua pelo nome da sua porta
     baudrate=115200,      
     parity=serial.PARITY_ODD,  # Paridade
     stopbits=serial.STOPBITS_ONE, # Bits de parada
@@ -48,7 +48,7 @@ def receber_dados_continuamente():
                     char8 = chr(byte8) if chr(byte8) in string.printable else '.'
 
                     # Atualiza as caixas com os dados recebidos
-                    label_bytes1_2.config(text=f"{char1}{char2}.{char3}{char4}ºC")
+                    label_bytes1_2.config(text=f"{char1}{char2}.{char4}{char3}ºC")
                     label_bytes5_6.config(text=f"{char5}{char6}.{char7}{char8}%")
             time.sleep(0.1)
         except Exception as e:
