@@ -30,7 +30,8 @@ module tusca #(
   output db_rele,
   output db_rx_serial_config,
   output db_tx_serial,
-  output db_erro_medida
+  output db_erro_medida,
+  output db_erro_medir
 );
 
   wire s_medir_dht11, s_conta_delay, s_zera_delay, s_receber_config, s_fim_delay, 
@@ -99,7 +100,8 @@ module tusca #(
     .db_lim_temp3(s_db_lim_temp3),
     .db_lim_temp4(s_db_lim_temp4),
     .db_lim_umidade(s_db_lim_umidade),
-    .db_erro_medida(db_erro_medida)
+    .db_erro_medida(db_erro_medida),
+    .db_erro_medir(db_erro_medir)
   );
 
   assign db_pwm_servo = pwm_servo;

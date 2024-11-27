@@ -44,7 +44,8 @@ module tusca_uc (
       INICIAL: Eprox = start ? MEDE : INICIAL;
       MEDE: Eprox = ESPERA_MEDIDA;
       ESPERA_MEDIDA: Eprox = pronto_medida ? TRANSMITE_MEDIDA : 
-                             erro_medida   ? RESETA_DELAY : ESPERA_MEDIDA;
+                             erro_medida   ? RESETA_DELAY : 
+                             definir_config ? PEDIR_CONFIG : ESPERA_MEDIDA;
       TRANSMITE_MEDIDA: Eprox = ESPERA_TRANSMISSAO;
       ESPERA_TRANSMISSAO: Eprox = pronto_transmissao_medida ? RESETA_DELAY : ESPERA_TRANSMISSAO;
       RESETA_DELAY: Eprox = ESPERA_DELAY;

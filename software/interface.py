@@ -2,11 +2,12 @@ import serial
 import tkinter as tk
 from tkinter import messagebox
 import threading
+import time
 import string
 
 # Configurações da porta serial para envio
 ser  = serial.Serial(
-    port='COM19',        # Substitua pelo nome da sua porta
+    port='COM27',        # Substitua pelo nome da sua porta
     baudrate=115200,      
     parity=serial.PARITY_ODD,  # Paridade
     stopbits=serial.STOPBITS_ONE, # Bits de parada

@@ -38,7 +38,8 @@ module tusca_fd #(
   output[15:0] db_lim_temp3,
   output[15:0] db_lim_temp4,
   output[15:0] db_lim_umidade,
-  output db_erro_medida
+  output db_erro_medida,
+  output db_erro_medir
 );
 
   wire [15:0] s_temp, s_umidade;
@@ -68,7 +69,8 @@ module tusca_fd #(
     .temperatura(s_temp),
     .umidade(s_umidade),
     .db_estado(db_estado_interface_dht11),
-    .db_erro_medida(db_erro_medida)
+    .db_erro_medida(db_erro_medida),
+    .db_erro_medir(db_erro_medir)
   );
 
   config_manager cnf (

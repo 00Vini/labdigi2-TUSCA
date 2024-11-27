@@ -12,7 +12,7 @@ module transmite_bcd_ascii_fd(
 
   assign s_valor_ascii = seletor_valor == 1'b1 ? {3'b011, bcd[7:4]} : {3'b011, bcd[3:0]};
 
-  tx_serial_7O1 #(
+  tx_serial_8O1 #(
     .BAUD_RATE(115200)
   ) transmite (
     .clock(clock),

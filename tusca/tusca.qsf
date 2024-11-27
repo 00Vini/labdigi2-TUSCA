@@ -42,7 +42,7 @@ set_global_assignment -name DEVICE 5CEBA4F23C7
 set_global_assignment -name TOP_LEVEL_ENTITY tusca
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 21.1.1
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "00:45:24  NOVEMBER 04, 2024"
-set_global_assignment -name LAST_QUARTUS_VERSION "21.1.1 Lite Edition"
+set_global_assignment -name LAST_QUARTUS_VERSION "20.1.1 Lite Edition"
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
 set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
 set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
@@ -194,4 +194,5 @@ set_location_assignment PIN_D17 -to db_nivel_temperatura[4]
 set_location_assignment PIN_K20 -to db_nivel_temperatura[5]
 set_location_assignment PIN_K21 -to db_nivel_temperatura[6]
 set_location_assignment PIN_N1 -to db_erro_medida
+set_location_assignment PIN_U2 -to db_erro_medir
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

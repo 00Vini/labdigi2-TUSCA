@@ -67,7 +67,7 @@ module medir_dht11_fd #(
   );
 
   contador_m #(
-    .M(4), // Tentar medir no máximo 4 vezes
+    .M(4), // Tentar medir no máximo 16 vezes
     .N(2)
   ) contador_tentativas (
     .clock(clock),
