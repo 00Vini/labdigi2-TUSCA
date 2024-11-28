@@ -16,7 +16,7 @@ module config_manager_uc (
 
   input fim_recepcao_config,
   input parity_config_ok,
-  output[2:0] db_estado
+  output[3:0] db_estado
 );
 
   localparam INICIAL = 4'd0,

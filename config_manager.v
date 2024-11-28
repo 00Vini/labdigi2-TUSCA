@@ -13,7 +13,7 @@ module config_manager(
   output [15:0] umidade_lim_out,
   output erro_config,
   output pronto_config,
-  output [2:0] db_estado,
+  output [3:0] db_estado,
   output [2:0] db_estado_recepcao_config
 );
 
