@@ -7,7 +7,7 @@ module tusca #(
   input reset,
   input start,
   input gira,
-  input rx_serial_config,
+  input rx_serial,
 
   inout dht_bus,
 
