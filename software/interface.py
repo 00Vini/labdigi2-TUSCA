@@ -106,7 +106,7 @@ def definir_proporcional():
     incremento = (max_value - min_value) / 7
     for i, entry in enumerate(entries_valores[1:-1]):
         entry.delete(0, tk.END)
-        entry.insert(0, f"{min_value + (i+1)*incremento:.2f}")
+        entry.insert(0, f"{min_value + (i+1)*incremento:05.2f}")
         
 
 # Função para encerrar o programa
