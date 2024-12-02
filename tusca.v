@@ -36,7 +36,7 @@ module tusca #(
 
   wire s_medir_dht11, s_conta_delay, s_zera_delay, s_receber_config, s_fim_delay, 
        s_pronto_medida, s_pronto_config, s_start, s_definir_config, s_erro_medida, 
-       s_transmite_medida, s_pronto_transmissao_medida;
+       s_transmite_medida, s_pronto_transmissao_medida, s_rele;
 
   wire [2:0] s_db_estado_interface_dht11, s_db_estado_recepcao_config, s_db_estado_transmissao_medida;
   wire [2:0] s_db_nivel_temperatura;
@@ -45,6 +45,7 @@ module tusca #(
 
   assign s_definir_config = ~db_rx_serial;
   assign s_receber_config = ~db_rx_serial;
+  assign rele = ~s_rele;
 
   tusca_uc uc (
     .clock(clock),
@@ -84,7 +85,7 @@ module tusca #(
     .erro_medida(s_erro_medida),
     .pronto_config(s_pronto_config),
     .erro_config(erro_config),
-    .rele(rele),
+    .rele(s_rele),
     .pwm_ventoinha(pwm_ventoinha),
     .pwm_servo(pwm_servo),
     .tx_serial(tx_serial),
