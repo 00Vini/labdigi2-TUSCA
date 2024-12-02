@@ -51,7 +51,7 @@ module bin2bcd #(
             Rbcd <= 0;
         end else if (state == SHIFTA) begin // Shift dos valores
             Rbin <= Rbin << 1;
-            Rbcd <= {{(N - 1){Rbcd}}, Rbin[W-1]};
+            Rbcd <= {Rbcd[N-2:0], Rbin[W-1]};
         end else if (state == CORRIGE) // Aplica correção
             Rbcd <= Rbcd_corrigido;
         else if (state == FIM) // Finaliza

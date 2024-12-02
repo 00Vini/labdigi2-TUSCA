@@ -13,7 +13,7 @@ module tusca_fd #(
   input receber_config,
 
   input transmite_medida,
-  input rx_serial_config,
+  input rx_serial,
 
   inout dht_bus,
   output fim_delay,
@@ -77,7 +77,7 @@ module tusca_fd #(
     .clock(clock),
     .reset(reset),
     .receber_config(receber_config),
-    .rx_serial(rx_serial_config),
+    .rx_serial(rx_serial),
     .temp_lim1_out(s_lim_temp1),
     .temp_lim2_out(s_lim_temp2),
     .temp_lim3_out(s_lim_temp3),

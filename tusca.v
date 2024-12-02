@@ -28,7 +28,7 @@ module tusca #(
   output db_pwm_ventoinha,
   output db_pwm_servo,
   output db_rele,
-  output db_rx_serial_config,
+  output db_rx_serial,
   output db_tx_serial,
   output db_erro_medida,
   output db_erro_medir
@@ -43,8 +43,8 @@ module tusca #(
   wire [3:0] s_hex5, s_db_estado, s_db_estado_config_manager;
   wire [15:0] s_db_temperatura, s_db_umidade, s_db_lim_temp1, s_db_lim_temp2, s_db_lim_temp3, s_db_lim_temp4, s_db_lim_umidade;
 
-  assign s_definir_config = ~rx_serial_config;
-  assign s_receber_config = ~rx_serial_config;
+  assign s_definir_config = ~db_rx_serial;
+  assign s_receber_config = ~db_rx_serial;
 
   tusca_uc uc (
     .clock(clock),
@@ -71,7 +71,7 @@ module tusca #(
     .clock(clock),
     .reset(reset),
     .gira(gira),
-    .rx_serial_config(rx_serial_config),
+    .rx_serial(rx_serial),
     .conta_delay(s_conta_delay),
     .zera_delay(s_zera_delay),
     .medir_dht11(s_medir_dht11),
@@ -106,7 +106,7 @@ module tusca #(
 
   assign db_pwm_servo = pwm_servo;
   assign db_pwm_ventoinha = pwm_ventoinha;
-  assign db_rx_serial_config = rx_serial_config;
+  assign db_rx_serial = rx_serial;
   assign db_rele = rele;
   assign db_tx_serial = tx_serial;
 

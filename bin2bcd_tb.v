@@ -22,6 +22,7 @@ module bin2bcd_tb;
   always #10 clock = ~clock;
 
   initial begin
+    $monitor("%d %b %h", bin, bcd, bcd);
     clock = 0;
     reset = 0;
     start = 0;
