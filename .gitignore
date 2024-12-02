@@ -48,3 +48,5 @@ PLLJ_PLLSPE_INFO.txt
 *.wlf
 transcript
 */*/*.txt
+
+software/venv/

@@ -99,6 +99,16 @@ def enviar_dados():
     except Exception as e:
         messagebox.showerror("Erro", f"Erro ao enviar dados: {e}")
 
+# Função para definir dados proporcionalmente
+def definir_proporcional():
+    min_value = float(entries_valores[0].get().strip())
+    max_value = float(entries_valores[-1].get().strip())
+    incremento = (max_value - min_value) / 7
+    for i, entry in enumerate(entries_valores[1:-1]):
+        entry.delete(0, tk.END)
+        entry.insert(0, f"{min_value + (i+1)*incremento:.2f}")
+        
+
 # Função para encerrar o programa
 def encerrar_programa():
     """Fecha as portas seriais e encerra o programa."""
@@ -146,11 +156,17 @@ for i, descricao in enumerate(descricoes):
     tk.Label(frame_coluna1, text=descricao, font=("Roboto", 12), anchor="w", bg="#ffc940", justify="center").grid(row=i+1, column=0, padx=10, pady=5, sticky="w")
     entry = tk.Entry(frame_coluna1, width=10, font=("Roboto", 14), bd=2, relief="sunken", justify="center")
     entry.grid(row=i+1, column=1, padx=10, pady=5)
-    entry.insert(0, f"{0}.{0}")  # Valores padrão
+    entry.insert(0, f"00.00")  # Valores padrão
     entries_valores.append(entry)
 
-btn_enviar = tk.Button(frame_coluna1, text="Enviar Dados", command=enviar_dados, font=("Roboto", 14), width=20, bd=4, relief="raised")
-btn_enviar.grid(row=len(descricoes)+1, column=0, columnspan=2, pady=10)
+frame_botoes = tk.Frame(frame_coluna1, bg="#ffc940")
+frame_botoes.grid(row=len(descricoes)+1, column=0, columnspan=2, pady=10)
+
+btn_setar = tk.Button(frame_botoes, text="Preencher", command=definir_proporcional, font=("Roboto", 14), width=10, bd=4, relief="raised")
+btn_setar.grid(row=0, column=0, padx=5)
+
+btn_enviar = tk.Button(frame_botoes, text="Enviar Dados", command=enviar_dados, font=("Roboto", 14), width=20, bd=4, relief="raised", anchor="w")
+btn_enviar.grid(row=0, column=1, padx=5)
 
 # Coluna 2: Exibição de dados recebidos
 frame_coluna2 = tk.Frame(frame, bd=4, relief="ridge", padx=10, pady=10, bg="#ffc940")
