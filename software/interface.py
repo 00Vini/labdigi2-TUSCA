@@ -7,7 +7,7 @@ import string
 
 # Configurações da porta serial para envio
 ser  = serial.Serial(
-    port='COM30',        # Substitua pelo nome da sua porta
+    port='COM16',        # Substitua pelo nome da sua porta
     baudrate=115200,      
     parity=serial.PARITY_ODD,  # Paridade
     stopbits=serial.STOPBITS_ONE, # Bits de parada
@@ -84,13 +84,14 @@ def enviar_dados():
             
             # Adicionar ao array de dados
             data.extend([decimos_centimos, dezena_unidade])
-            numeric_data.append(dezena_unidade + decimos_centimos / 100)
-            
+            numeric_data.append(dezena_unidade + decimos_centimos / 100.0)
+
+        data = [int(str(n)[::-1]) if i % 2 == 0 else n for i, n in enumerate(data)]  # Inverter os dígitos
         # Validando a ordem crescente
         if (numeric_data[:-1] != sorted(numeric_data[:-1])):
             raise ValueError("Os valores de temperatura devem ser inseridos em ordem crescente.")
 
-
+        print(data)
         # Enviar todos os dados
         ser.write(bytes(data)) 
         messagebox.showinfo("Sucesso", f"Dados enviados: {data}")
@@ -106,7 +107,7 @@ def definir_proporcional():
     incremento = (max_value - min_value) / 6
     for i, entry in enumerate(entries_valores[1:-2]):
         entry.delete(0, tk.END)
-        entry.insert(0, f"{min_value + (i+1)*incremento:05.2f}")
+        entry.insert(0, f"{min_value + (i+1)*incremento:04.1f}")
         
 
 # Função para encerrar o programa
@@ -156,7 +157,7 @@ for i, descricao in enumerate(descricoes):
     tk.Label(frame_coluna1, text=descricao, font=("Roboto", 12), anchor="w", bg="#ffc940", justify="center").grid(row=i+1, column=0, padx=10, pady=5, sticky="w")
     entry = tk.Entry(frame_coluna1, width=10, font=("Roboto", 14), bd=2, relief="sunken", justify="center")
     entry.grid(row=i+1, column=1, padx=10, pady=5)
-    entry.insert(0, f"00.00")  # Valores padrão
+    entry.insert(0, f"00.0")  # Valores padrão
     entries_valores.append(entry)
 
 frame_botoes = tk.Frame(frame_coluna1, bg="#ffc940")
