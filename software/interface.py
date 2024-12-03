@@ -102,9 +102,9 @@ def enviar_dados():
 # Função para definir dados proporcionalmente
 def definir_proporcional():
     min_value = float(entries_valores[0].get().strip())
-    max_value = float(entries_valores[-1].get().strip())
-    incremento = (max_value - min_value) / 7
-    for i, entry in enumerate(entries_valores[1:-1]):
+    max_value = float(entries_valores[-2].get().strip())
+    incremento = (max_value - min_value) / 6
+    for i, entry in enumerate(entries_valores[1:-2]):
         entry.delete(0, tk.END)
         entry.insert(0, f"{min_value + (i+1)*incremento:05.2f}")
         
