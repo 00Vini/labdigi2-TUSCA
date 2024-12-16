@@ -1,7 +1,6 @@
 module receptor_16_uc(
   input clock,
   input reset,
-  input receber_config,
   input fim_receber,
   input parity_ok,
   

@@ -1,6 +1,7 @@
 module tusca_fd #(
   parameter PERIODO_CONTA = 2000,
-  parameter PERIODO_DELAY = 100_000_000 // 2s
+  parameter PERIODO_DELAY = 50_000, // 1ms,
+  parameter TIMEOUT = 50_000_000 // 1s
 ) (
   input clock,
   input reset,
@@ -12,10 +13,9 @@ module tusca_fd #(
   input receber_config,
 
   input transmite_medida,
-  input rx_serial_medida,
-  input rx_serial_config,
+  input rx_serial,
 
-  output medir_dht11_out,
+  inout dht_bus,
   output fim_delay,
   output pronto_medida,
   output erro_medida,
@@ -27,9 +27,8 @@ module tusca_fd #(
   output pronto_transmite_medida,
   output tx_serial,
   output[2:0] db_estado_interface_dht11,
-  output[2:0] db_estado_config_manager,
+  output[3:0] db_estado_config_manager,
   output[2:0] db_estado_recepcao_config,
-  output[2:0] db_estado_recepcao_medida,
   output[2:0] db_estado_transmissao_medida,
   output[2:0] db_nivel_temperatura,
   output[15:0] db_temperatura,
@@ -38,7 +37,9 @@ module tusca_fd #(
   output[15:0] db_lim_temp2,
   output[15:0] db_lim_temp3,
   output[15:0] db_lim_temp4,
-  output[15:0] db_lim_umidade
+  output[15:0] db_lim_umidade,
+  output db_erro_medida,
+  output db_erro_medir
 );
 
   wire [15:0] s_temp, s_umidade;
@@ -56,25 +57,27 @@ module tusca_fd #(
   assign db_lim_temp4 = s_lim_temp4;
   assign db_lim_umidade = s_lim_umidade;
 
-  interface_dht11 interface_dht11 (
+  medir_dht11 #(
+    .TIMEOUT(TIMEOUT)
+  ) interface_dht11 (
+    .dht_bus(dht_bus),
     .clock(clock),
     .reset(reset),
-    .medir_dht11(medir_dht11),
-    .rx_serial(rx_serial_medida),
-    .pronto_medida(pronto_medida),
+    .medir(medir_dht11),
+    .pronto(pronto_medida),
     .erro(erro_medida),
-    .temeperatura_out(s_temp),
-    .umidade_out(s_umidade),
-    .medir_out(medir_dht11_out),
+    .temperatura(s_temp),
+    .umidade(s_umidade),
     .db_estado(db_estado_interface_dht11),
-    .db_estado_recepcao_medida(db_estado_recepcao_medida)
+    .db_erro_medida(db_erro_medida),
+    .db_erro_medir(db_erro_medir)
   );
 
   config_manager cnf (
     .clock(clock),
     .reset(reset),
     .receber_config(receber_config),
-    .rx_serial(rx_serial_config),
+    .rx_serial(rx_serial),
     .temp_lim1_out(s_lim_temp1),
     .temp_lim2_out(s_lim_temp2),
     .temp_lim3_out(s_lim_temp3),

@@ -1,20 +1,16 @@
-// TODO
-// - [ ] Adicionar timeout na medida do arduino
-// - [ ] Adicionar mais níveis de temperatura
-
 module tusca #(
   parameter PERIODO_CONTA = 2000,
-  parameter PERIODO_DELAY = 100_000_000 // 2s
+  parameter PERIODO_DELAY = 50_000_000, // 2s
+  TIMEOUT = 50_000_000 // 1s
 ) (
   input clock,
   input reset,
   input start,
-  input definir_config,
   input gira,
-  input rx_serial_medida,
-  input rx_serial_config,
+  input rx_serial,
 
-  output medir_dht11_out,
+  inout dht_bus,
+
   output erro_config,
   output rele,
   output pwm_ventoinha,
@@ -28,20 +24,28 @@ module tusca #(
   output[6:0] db_estado_recepcao_config,
   output[6:0] db_estado_transmissao_medida,
   output[6:0] db_mux,
-  output[2:0] db_nivel_temperatura,
+  output[6:0] db_nivel_temperatura,
   output db_pwm_ventoinha,
   output db_pwm_servo,
   output db_rele,
-  output db_rx_serial_config,
-  output db_rx_serial_medida,
-  output db_tx_serial
+  output db_rx_serial,
+  output db_tx_serial,
+  output db_erro_medida,
+  output db_erro_medir
 );
 
-  wire s_medir_dht11, s_conta_delay, s_zera_delay, s_receber_config, s_fim_delay, s_pronto_medida, s_pronto_config, s_start, s_definir_config, s_erro_medida, s_transmite_medida, s_pronto_transmissao_medida;
+  wire s_medir_dht11, s_conta_delay, s_zera_delay, s_receber_config, s_fim_delay, 
+       s_pronto_medida, s_pronto_config, s_start, s_definir_config, s_erro_medida, 
+       s_transmite_medida, s_pronto_transmissao_medida, s_rele;
 
-  wire [2:0] s_db_estado_interface_dht11, s_db_estado_config_manager, s_db_estado_recepcao_config, s_db_estado_transmissao_medida;
-  wire [3:0] s_hex5, s_db_estado;
+  wire [2:0] s_db_estado_interface_dht11, s_db_estado_recepcao_config, s_db_estado_transmissao_medida;
+  wire [2:0] s_db_nivel_temperatura;
+  wire [3:0] s_hex5, s_db_estado, s_db_estado_config_manager;
   wire [15:0] s_db_temperatura, s_db_umidade, s_db_lim_temp1, s_db_lim_temp2, s_db_lim_temp3, s_db_lim_temp4, s_db_lim_umidade;
+
+  assign s_definir_config = ~db_rx_serial;
+  assign s_receber_config = ~db_rx_serial;
+  assign rele = ~s_rele;
 
   tusca_uc uc (
     .clock(clock),
@@ -50,7 +54,6 @@ module tusca #(
     .medir_dht11(s_medir_dht11),
     .conta_delay(s_conta_delay),
     .zera_delay(s_zera_delay),
-    .receber_config(s_receber_config),
     .definir_config(s_definir_config),
     .transmite_medida(s_transmite_medida),
     .fim_delay(s_fim_delay),
@@ -63,18 +66,18 @@ module tusca #(
 
   tusca_fd #(
     .PERIODO_CONTA(PERIODO_CONTA),
-    .PERIODO_DELAY(PERIODO_DELAY)
+    .PERIODO_DELAY(PERIODO_DELAY),
+    .TIMEOUT(TIMEOUT)
   ) fd (
     .clock(clock),
     .reset(reset),
     .gira(gira),
-    .rx_serial_config(rx_serial_config),
-    .rx_serial_medida(rx_serial_medida),
+    .rx_serial(rx_serial),
     .conta_delay(s_conta_delay),
     .zera_delay(s_zera_delay),
     .medir_dht11(s_medir_dht11),
     .receber_config(s_receber_config),
-    .medir_dht11_out(medir_dht11_out),
+    .dht_bus(dht_bus),
     .transmite_medida(s_transmite_medida),
     .pronto_transmite_medida(s_pronto_transmissao_medida),
     .fim_delay(s_fim_delay),
@@ -82,29 +85,29 @@ module tusca #(
     .erro_medida(s_erro_medida),
     .pronto_config(s_pronto_config),
     .erro_config(erro_config),
-    .rele(rele),
+    .rele(s_rele),
     .pwm_ventoinha(pwm_ventoinha),
     .pwm_servo(pwm_servo),
     .tx_serial(tx_serial),
     .db_estado_interface_dht11(s_db_estado_interface_dht11),
     .db_estado_config_manager(s_db_estado_config_manager),
     .db_estado_recepcao_config(s_db_estado_recepcao_config),
-    .db_estado_recepcao_medida(),
     .db_estado_transmissao_medida(s_db_estado_transmissao_medida),
-    .db_nivel_temperatura(db_nivel_temperatura),
+    .db_nivel_temperatura(s_db_nivel_temperatura),
     .db_temperatura(s_db_temperatura),
     .db_umidade(s_db_umidade),
     .db_lim_temp1(s_db_lim_temp1),
     .db_lim_temp2(s_db_lim_temp2),
     .db_lim_temp3(s_db_lim_temp3),
     .db_lim_temp4(s_db_lim_temp4),
-    .db_lim_umidade(s_db_lim_umidade)
+    .db_lim_umidade(s_db_lim_umidade),
+    .db_erro_medida(db_erro_medida),
+    .db_erro_medir(db_erro_medir)
   );
 
   assign db_pwm_servo = pwm_servo;
   assign db_pwm_ventoinha = pwm_ventoinha;
-  assign db_rx_serial_config = rx_serial_config;
-  assign db_rx_serial_medida = rx_serial_medida;
+  assign db_rx_serial = rx_serial;
   assign db_rele = rele;
   assign db_tx_serial = tx_serial;
 
@@ -114,7 +117,7 @@ module tusca #(
   );
 
   hexa7seg H1 (
-    .hexa({1'b0, s_db_estado_config_manager}),
+    .hexa(s_db_estado_config_manager),
     .display(db_estado_config_manager)
   );
 
@@ -138,18 +141,16 @@ module tusca #(
     .display(db_mux)
   );
 
+  hexa7seg EXT_HEX (
+    .hexa({1'b0, s_db_nivel_temperatura}),
+    .display(db_nivel_temperatura)
+  );
+
   edge_detector ed_start (
     .clock(clock),
     .reset(reset),
     .sinal(start),
     .pulso(s_start)
-  );
-
-  edge_detector ed_config (
-    .clock(clock),
-    .reset(reset),
-    .sinal(definir_config),
-    .pulso(s_definir_config)
   );
 
   assign s_hex5 = (db_sel == 3'b000) ? s_db_temperatura[3:0] : 

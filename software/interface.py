@@ -2,11 +2,12 @@ import serial
 import tkinter as tk
 from tkinter import messagebox
 import threading
+import time
 import string
 
 # Configurações da porta serial para envio
 ser  = serial.Serial(
-    port='COM19',        # Substitua pelo nome da sua porta
+    port='COM16',        # Substitua pelo nome da sua porta
     baudrate=115200,      
     parity=serial.PARITY_ODD,  # Paridade
     stopbits=serial.STOPBITS_ONE, # Bits de parada
@@ -47,7 +48,7 @@ def receber_dados_continuamente():
                     char8 = chr(byte8) if chr(byte8) in string.printable else '.'
 
                     # Atualiza as caixas com os dados recebidos
-                    label_bytes1_2.config(text=f"{char1}{char2}.{char3}{char4}ºC")
+                    label_bytes1_2.config(text=f"{char1}{char2}.{char4}{char3}ºC")
                     label_bytes5_6.config(text=f"{char5}{char6}.{char7}{char8}%")
             time.sleep(0.1)
         except Exception as e:
@@ -83,13 +84,14 @@ def enviar_dados():
             
             # Adicionar ao array de dados
             data.extend([decimos_centimos, dezena_unidade])
-            numeric_data.append(dezena_unidade + decimos_centimos / 100)
-            
+            numeric_data.append(dezena_unidade + decimos_centimos / 100.0)
+
+        data = [int(str(n)[::-1]) if i % 2 == 0 else n for i, n in enumerate(data)]  # Inverter os dígitos
         # Validando a ordem crescente
         if (numeric_data[:-1] != sorted(numeric_data[:-1])):
             raise ValueError("Os valores de temperatura devem ser inseridos em ordem crescente.")
 
-
+        print(data)
         # Enviar todos os dados
         ser.write(bytes(data)) 
         messagebox.showinfo("Sucesso", f"Dados enviados: {data}")
@@ -97,6 +99,16 @@ def enviar_dados():
         messagebox.showerror("Erro", f"Valor inválido ({i+1}): {ve}")
     except Exception as e:
         messagebox.showerror("Erro", f"Erro ao enviar dados: {e}")
+
+# Função para definir dados proporcionalmente
+def definir_proporcional():
+    min_value = float(entries_valores[0].get().strip())
+    max_value = float(entries_valores[-2].get().strip())
+    incremento = (max_value - min_value) / 6
+    for i, entry in enumerate(entries_valores[1:-2]):
+        entry.delete(0, tk.END)
+        entry.insert(0, f"{min_value + (i+1)*incremento:04.1f}")
+        
 
 # Função para encerrar o programa
 def encerrar_programa():
@@ -145,11 +157,17 @@ for i, descricao in enumerate(descricoes):
     tk.Label(frame_coluna1, text=descricao, font=("Roboto", 12), anchor="w", bg="#ffc940", justify="center").grid(row=i+1, column=0, padx=10, pady=5, sticky="w")
     entry = tk.Entry(frame_coluna1, width=10, font=("Roboto", 14), bd=2, relief="sunken", justify="center")
     entry.grid(row=i+1, column=1, padx=10, pady=5)
-    entry.insert(0, f"{0}.{0}")  # Valores padrão
+    entry.insert(0, f"00.0")  # Valores padrão
     entries_valores.append(entry)
 
-btn_enviar = tk.Button(frame_coluna1, text="Enviar Dados", command=enviar_dados, font=("Roboto", 14), width=20, bd=4, relief="raised")
-btn_enviar.grid(row=len(descricoes)+1, column=0, columnspan=2, pady=10)
+frame_botoes = tk.Frame(frame_coluna1, bg="#ffc940")
+frame_botoes.grid(row=len(descricoes)+1, column=0, columnspan=2, pady=10)
+
+btn_setar = tk.Button(frame_botoes, text="Preencher", command=definir_proporcional, font=("Roboto", 14), width=10, bd=4, relief="raised")
+btn_setar.grid(row=0, column=0, padx=5)
+
+btn_enviar = tk.Button(frame_botoes, text="Enviar Dados", command=enviar_dados, font=("Roboto", 14), width=20, bd=4, relief="raised", anchor="w")
+btn_enviar.grid(row=0, column=1, padx=5)
 
 # Coluna 2: Exibição de dados recebidos
 frame_coluna2 = tk.Frame(frame, bd=4, relief="ridge", padx=10, pady=10, bg="#ffc940")
